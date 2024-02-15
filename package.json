@@ -1,0 +1,91 @@
+{
+  "name": "my-awesome-package",
+  "version": "1.1.0",
+  "description": "Look at this great package. Lots of stuff.",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "browser": "dist/index.iife.js",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "lint": "standard | snazzy",
+    "lint:fix": "standard --fix | snazzy",
+    "lint:test": "npm run lint && npm test",
+    "test": "mocha \"tests/**/*.tests.js\"",
+    "test:coverage": "NODE_ENV=test c8 --all --include=lib/* --reporter=html --reporter=text mocha \"tests/**/*.tests.js\"",
+    "test:watch": "npm test -- --watch",
+    "docs": "jsdoc --readme README.md ./lib/*.js -d ./docs && jsdoc2md ./lib/*.js > ./api.md",
+    "build": "rollup --config rollup.dist.config.js",
+    "build:full": "npm run docs && npm run build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
+  },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
+  },
+  "standard": {
+    "ignore": [
+      "docs/",
+      "node_modules/",
+      "dist/"
+    ]
+  },
+  "targets": "> 0.25%, not dead",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jankapunkt/npm-package-template.git"
+  },
+  "keywords": [
+    "npm",
+    "package",
+    "template",
+    "javascript"
+  ],
+  "author": "Jan Küster <info@jankuester.com>",
+  "funding": {
+    "type": "PayPal",
+    "url": "https://paypal.me/kuesterjan"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jankapunkt/npm-package-template/issues"
+  },
+  "engines": {
+    "node": ">= 14.x"
+  },
+  "files": [
+    "dist",
+    "API.md",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "homepage": "https://github.com/jankapunkt/npm-package-template#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/register": "^7.22.15",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.5",
+    "c8": "^8.0.1",
+    "chai": "^4.3.10",
+    "cross-env": "7.0.3",
+    "jsdoc": "^4.0.2",
+    "jsdoc-to-markdown": "^8.0.0",
+    "mocha": "^10.2.0",
+    "rollup": "^4.0.2",
+    "snazzy": "^9.0.0",
+    "standard": "^17.1.0"
+  }
+}
