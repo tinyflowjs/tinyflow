@@ -91,7 +91,7 @@
     "cross-env": "7.0.3",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "mocha": "^10.2.0",
+    "mocha": "^10.3.0",
     "rollup": "^4.0.2",
     "simpl-schema": "^3.4.1",
     "snazzy": "^9.0.0",
