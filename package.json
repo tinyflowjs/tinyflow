@@ -1,7 +1,7 @@
 {
-  "name": "my-awesome-package",
+  "name": "@tinyflow/core",
   "version": "1.1.0",
-  "description": "Look at this great package. Lots of stuff.",
+  "description": "An extendable workflow engine for all runtimes with minimal core",
   "type": "module",
   "main": "dist/index.cjs.js",
   "browser": "dist/index.iife.js",
@@ -13,7 +13,7 @@
     "test": "mocha \"tests/**/*.tests.js\"",
     "test:coverage": "NODE_ENV=test c8 --all --include=lib/* --reporter=html --reporter=text mocha \"tests/**/*.tests.js\"",
     "test:watch": "npm test -- --watch",
-    "docs": "jsdoc --readme README.md ./lib/*.js -d ./docs && jsdoc2md ./lib/*.js > ./api.md",
+    "docs": "jsdoc --readme README.md ./lib/*.js -d ./docs/api && jsdoc2md ./lib/*.js > ./api.md",
     "build": "rollup --config rollup.dist.config.js",
     "build:full": "npm run docs && npm run build"
   },
@@ -52,10 +52,16 @@
     "javascript"
   ],
   "author": "Jan Küster <info@jankuester.com>",
-  "funding": {
-    "type": "PayPal",
-    "url": "https://paypal.me/kuesterjan"
-  },
+  "funding": [
+    {
+      "type": "GitHub",
+      "url": "https://github.com/sponsors/jankapunkt"
+    },
+    {
+      "type": "PayPal",
+      "url": "https://paypal.me/kuesterjan"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jankapunkt/npm-package-template/issues"
@@ -78,6 +84,8 @@
     "@babel/register": "^7.22.15",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "ajv": "^8.12.0",
     "c8": "^8.0.1",
     "chai": "^4.3.10",
     "cross-env": "7.0.3",
@@ -85,6 +93,7 @@
     "jsdoc-to-markdown": "^8.0.0",
     "mocha": "^10.2.0",
     "rollup": "^4.0.2",
+    "simpl-schema": "^3.4.1",
     "snazzy": "^9.0.0",
     "standard": "^17.1.0"
   }

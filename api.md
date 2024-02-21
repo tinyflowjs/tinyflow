@@ -1,100 +1,222 @@
 ## Classes
 
 <dl>
-<dt><a href="#SuperTool">SuperTool</a></dt>
-<dd><p>The super tool class. Holds a state and implements the execute command.</p>
+<dt><a href="#Emitter">Emitter</a></dt>
+<dd><p>A tiny emitter that provides just the bare minimum.</p>
+</dd>
+<dt><a href="#TinyflowError">TinyflowError</a></dt>
+<dd><p>A minimal Error extension to add
+details</p>
+</dd>
+<dt><a href="#Workflow">Workflow</a></dt>
+<dd><p>The main workflow execution class,
+defined by the given definitions file.</p>
+<p>Initial state is pending, until <code>start()</code> is called.
+Hooks will not run when pending.</p>
+<p>Next step is defined either by <code>next</code> being defined in the current step
+or by user explicitly set the name or index of the step.
+It&#39;s up to you to handle permissions for any of these methods.</p>
+<p>Emits various events, see the respective method documentation.</p>
+</dd>
+<dt><a href="#Step">Step</a></dt>
+<dd><p>Represents an executable unit of a workflow.
+Steps work best when they are atomically related to exactly one
+task. It is up to the user to define and implement what such
+a task might be.
+Examples of tasks can be fetching data from an endpoint or
+users submitting a form.
+Just make sure a step does not involve multiple tasks.</p>
 </dd>
 </dl>
 
 ## Constants
 
 <dl>
-<dt><a href="#exists">exists</a> ⇒ <code>boolean</code></dt>
-<dd><p>Returns true of a given parameter is not null and not undefined.</p>
+<dt><a href="#Tinyflow">Tinyflow</a> : <code>object</code></dt>
+<dd><p>Tinyflow is a minimalistic workflow engine with
+easy customization.
+You can use it with any JavaScript runtime as it
+makes no use of any runtime-specifics.</p>
 </dd>
 </dl>
 
-<a name="SuperTool"></a>
+<a name="Emitter"></a>
 
-## SuperTool
-The super tool class. Holds a state and implements the execute command.
+## Emitter
+A tiny emitter that provides just the bare minimum.
 
 **Kind**: global class  
 
-* [SuperTool](#SuperTool)
-    * [new SuperTool(state)](#new_SuperTool_new)
-    * _instance_
-        * [.state(value)](#SuperTool+state) ⇒ <code>String</code>
-        * [.execute()](#SuperTool+execute) ⇒ <code>string</code>
-    * _static_
-        * [.states](#SuperTool.states) ⇒ <code>Object</code>
-        * [.validateState(value)](#SuperTool.validateState)
+* [Emitter](#Emitter)
+    * [.count()](#Emitter+count) ⇒ <code>number</code>
+    * [.on(name, fn)](#Emitter+on)
+    * [.off([name], [fn])](#Emitter+off)
+    * [.emit(name, [data])](#Emitter+emit)
 
-<a name="new_SuperTool_new"></a>
+<a name="Emitter+count"></a>
 
-### new SuperTool(state)
-Constructor initializes the state. If none is given, it defaults to {'great'}.
+### emitter.count() ⇒ <code>number</code>
+returns the size
 
-**Throws**:
+**Kind**: instance method of [<code>Emitter</code>](#Emitter)  
+<a name="Emitter+on"></a>
 
-- if state is not a valid state
+### emitter.on(name, fn)
+Attach a new listener
 
+**Kind**: instance method of [<code>Emitter</code>](#Emitter)  
 
-| Param | Description |
+| Param | Type |
 | --- | --- |
-| state | one of the SuperTool.state values |
+| name | <code>string</code> | 
+| fn | <code>function</code> | 
 
-<a name="SuperTool+state"></a>
+<a name="Emitter+off"></a>
 
-### superTool.state(value) ⇒ <code>String</code>
-Validates and sets a new state value if given and returns the updated value. If no defined value is given it just returns the
-current state value.
+### emitter.off([name], [fn])
+Remove listeners. Has multiple combinations:
+- if no arg at all is passed will remove **everything**
+- if only name is passed will remove all listeners by name
+- if name and function is passed will remove only this specific
+  listener, if it has been attached before
 
-**Kind**: instance method of [<code>SuperTool</code>](#SuperTool)  
-**Returns**: <code>String</code> - the current state value  
+**Kind**: instance method of [<code>Emitter</code>](#Emitter)  
+
+| Param | Type |
+| --- | --- |
+| [name] | <code>string</code> | 
+| [fn] | <code>function</code> | 
+
+<a name="Emitter+emit"></a>
+
+### emitter.emit(name, [data])
+Fires a new single event for this emitter.
+If a listener was registered with the "once" flag
+then it will only be fired once, then removed
+from the listeners list.
+
+Additional data can be added by an exact single second
+argument. Use an object if you have complex data to
+submit during the event.
+
+**Kind**: instance method of [<code>Emitter</code>](#Emitter)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>String</code> \| <code>undefined</code> | optional state to be set. |
+| name | <code>string</code> | name of the event |
+| [data] | <code>any</code> | optional data |
 
-<a name="SuperTool+execute"></a>
+<a name="TinyflowError"></a>
 
-### superTool.execute() ⇒ <code>string</code>
-Executes with the current internal state.
+## TinyflowError
+A minimal Error extension to add
+details
 
-**Kind**: instance method of [<code>SuperTool</code>](#SuperTool)  
-**Returns**: <code>string</code> - the execution including the current state.  
-<a name="SuperTool.states"></a>
+**Kind**: global class  
+<a name="Tinyflow"></a>
 
-### SuperTool.states ⇒ <code>Object</code>
-The possible states of the SuperTool.
-
-**Kind**: static property of [<code>SuperTool</code>](#SuperTool)  
-<a name="SuperTool.validateState"></a>
-
-### SuperTool.validateState(value)
-Validates a state. To be valid, the value needs to be part of the {SuperTool.states}.
-Throws an Error if invalid. Returns void / undefined if passed.
-
-**Kind**: static method of [<code>SuperTool</code>](#SuperTool)  
-**Throws**:
-
-- if state is not a valid state
-
-
-| Param | Description |
-| --- | --- |
-| value | The state candidate to be validated. |
-
-<a name="exists"></a>
-
-## exists ⇒ <code>boolean</code>
-Returns true of a given parameter is not null and not undefined.
+## Tinyflow : <code>object</code>
+Tinyflow is a minimalistic workflow engine with
+easy customization.
+You can use it with any JavaScript runtime as it
+makes no use of any runtime-specifics.
 
 **Kind**: global constant  
-**Returns**: <code>boolean</code> - true if defined, otherwise false  
 
-| Param | Description |
+* [Tinyflow](#Tinyflow) : <code>object</code>
+    * [.extend(fn)](#Tinyflow.extend)
+    * [.get(id)](#Tinyflow.get) ⇒ [<code>Workflow</code>](#Workflow)
+    * [.all()](#Tinyflow.all) ⇒ [<code>Array.&lt;Workflow&gt;</code>](#Workflow)
+    * [.clear([options])](#Tinyflow.clear)
+    * [.use(name, handler)](#Tinyflow.use)
+    * [.create(definition)](#Tinyflow.create) ⇒ [<code>Workflow</code>](#Workflow)
+    * [.dispose(instanceId, [force])](#Tinyflow.dispose)
+
+<a name="Tinyflow.extend"></a>
+
+### Tinyflow.extend(fn)
+Extend Tinyflow functionality. In contrast to register an extension this
+method allows to extend Tinyflows core functionality.
+
+**Kind**: static method of [<code>Tinyflow</code>](#Tinyflow)  
+
+| Param |
+| --- |
+| fn | 
+
+<a name="Tinyflow.get"></a>
+
+### Tinyflow.get(id) ⇒ [<code>Workflow</code>](#Workflow)
+Gets a workflow instance by its id
+
+**Kind**: static method of [<code>Tinyflow</code>](#Tinyflow)  
+
+| Param | Type |
 | --- | --- |
-| any | any input is feasible |
+| id | <code>string</code> | 
+
+<a name="Tinyflow.all"></a>
+
+### Tinyflow.all() ⇒ [<code>Array.&lt;Workflow&gt;</code>](#Workflow)
+Returns all non-disposed workflows of any state.
+
+**Kind**: static method of [<code>Tinyflow</code>](#Tinyflow)  
+<a name="Tinyflow.clear"></a>
+
+### Tinyflow.clear([options])
+Clears all extensions and instances. By default, all engines are shut down
+and fire the end event.
+
+**Kind**: static method of [<code>Tinyflow</code>](#Tinyflow)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>object</code> | options |
+| [options.extensions] | <code>boolean</code> | signal to clear all extensions |
+
+<a name="Tinyflow.use"></a>
+
+### Tinyflow.use(name, handler)
+Register an extension by name. Extensions run on workflow-properties that
+are not part of the engine core.
+Core properties are currently: id, next, name, prev
+
+Extensions can be registered for workflows and/or steps, which can be determined by
+the second parameter of their callback.
+
+Callbacks can also be async, but they're not awaited (only caught).
+If callback is null then the extension will be removed.
+
+**Kind**: static method of [<code>Tinyflow</code>](#Tinyflow)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | name of the property to register an extension |
+| handler | <code>null</code> \| <code>function</code> | callback to execute |
+
+<a name="Tinyflow.create"></a>
+
+### Tinyflow.create(definition) ⇒ [<code>Workflow</code>](#Workflow)
+Creates a new workflow instance by given workflow definitions.
+
+**Kind**: static method of [<code>Tinyflow</code>](#Tinyflow)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| definition | <code>object</code> | the workflow definitions object |
+
+<a name="Tinyflow.dispose"></a>
+
+### Tinyflow.dispose(instanceId, [force])
+Fully disposes a workflow, including any event listener
+to it, or its current step.
+Once complete it will finally remove the workflow from
+the internal instances list.
+
+**Kind**: static method of [<code>Tinyflow</code>](#Tinyflow)  
+
+| Param | Type |
+| --- | --- |
+| instanceId | <code>string</code> | 
+| [force] | <code>boolean</code> | 
 

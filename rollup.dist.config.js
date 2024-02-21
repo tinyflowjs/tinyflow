@@ -1,40 +1,71 @@
 import { babel, getBabelOutputPlugin } from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
+import terser from '@rollup/plugin-terser'
 
 export default [{
-  input: 'lib/index.js',
+  input: 'lib/Tinyflow.js',
   output: [
     {
-      file: 'dist/index.js',
+      file: 'dist/Tinyflow.js',
       format: 'es',
       sourcemap: true
     },
     {
-      file: 'dist/index.es5.js',
+      file: 'dist/Tinyflow.min.js',
+      format: 'es',
+      sourcemap: true,
+      compact: true,
+      plugins: [terser()]
+    },
+    {
+      file: 'dist/Tinyflow.es5.js',
       format: 'es',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] })],
       sourcemap: true
     },
     {
-      file: 'dist/index.cjs.js',
+      file: 'dist/Tinyflow.es5.min.js',
+      format: 'es',
+      plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] }), terser()],
+      sourcemap: true,
+      compact: true
+    },
+    {
+      file: 'dist/Tinyflow.cjs.js',
       format: 'cjs',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] })],
       sourcemap: true
+    },
+    {
+      file: 'dist/Tinyflow.cjs.min.js',
+      format: 'cjs',
+      plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] }), terser()],
+      sourcemap: true,
+      compact: true
     }
   ]
-}, {
-  input: 'lib/index.js',
-  output: {
-    file: 'dist/index.iife.js',
-    format: 'iife',
-    name: 'index',
-    sourcemap: true
-  },
-  plugins: [
-    commonjs(),
-    babel({
-      exclude: 'node_modules/**',
-      babelHelpers: 'bundled'
-    })
-  ]
-}]
+},
+  // IIFE OUTPUT
+  {
+    input: 'lib/Tinyflow.js',
+    output: [{
+      file: 'dist/Tinyflow.iife.js',
+      format: 'iife',
+      name: 'index',
+      sourcemap: true,
+    }, {
+      file: 'dist/Tinyflow.iife.min.js',
+      format: 'iife',
+      name: 'index',
+      sourcemap: true,
+      compact: true,
+      plugins: [terser()]
+    }],
+    plugins: [
+      commonjs(),
+      babel({
+        exclude: 'node_modules/**',
+        babelHelpers: 'bundled'
+      })
+    ]
+  }]

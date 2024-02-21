@@ -1,4 +1,4 @@
-# Contributing to `my-awesome-package`
+# Contributing to `@chartonomy/tinyflow`
 
 Thank you for your interest in this project and your aims to improving it.
 This guide will give you the most important info on how to contribute properly
