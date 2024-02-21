@@ -93,7 +93,7 @@
     "jsdoc-to-markdown": "^8.0.0",
     "mocha": "^10.2.0",
     "rollup": "^4.0.2",
-    "simpl-schema": "^3.4.1",
+    "simpl-schema": "^3.4.4",
     "snazzy": "^9.0.0",
     "standard": "^17.1.0"
   }
