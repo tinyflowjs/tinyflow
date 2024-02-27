@@ -1,4 +1,4 @@
-# Contributing to `@chartonomy/tinyflow`
+# Contributing to Tinyflow
 
 Thank you for your interest in this project and your aims to improving it.
 This guide will give you the most important info on how to contribute properly
@@ -31,8 +31,8 @@ and discuss, whether this is a useful addition to the project.
 First, clone and install this project from source via
 
 ```bash
-$ git clone git@github.com:me/my-project.git
-$ cd my-project
+$ git clone git@github.com:tinyflowjs/tinyflow.git
+$ cd tinyflow
 $ npm install
 ```
 
@@ -47,6 +47,8 @@ $ npm run test:coverage  # runs the tests including coverage
 $ npm run docs           # generates the API docs
 $ npm run build          # generates the final distributable files
 ```
+
+Note, these scripts are only a proxy to the several packages' scripts.
 
 To work on a new feature or a fix please create a new branch:
 
