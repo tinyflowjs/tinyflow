@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="css, library, picnic, picnicss, light">
+    <meta name="description" content="Workflows everywhere! Minimal, yet highly extendable and hackable workflow engine.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Tinyflow</title>
+    <style>
+        .logo {max-width: 20%;}
+        .hero {
+            position:relative;
+            width:100%;
+            height:70vh;
+            transition:height 999999s;
+            text-align:center;
+            min-height:300px;
+            color:#333;
+            padding:1px 0;
+            background:#fff url("/img/optimised.svg") no-repeat 50% center scroll;
+            background-size:cover
+        }
+        .hero .content {
+            position:relative;
+            top:45%;
+            transform:translateY(-50%)
+        }
+        .hero h1 {
+            font-size:3em;
+            line-height:1;
+            padding:0
+        }
+        .hero p {
+            margin:0
+        }
+        .hero .slogan {
+            font-size:1.3em
+        }
+        .hero .npm {
+            max-width:720px;
+            color:#333;
+            margin-bottom:0;
+            text-align:center;
+            border-radius:0;
+            margin:1.3em auto .3em
+        }
+        .hero .npm.slim,
+        .hero .npm.wide {
+            display:none
+        }
+        @media(max-width: 700px) {
+            .hero .npm.slim {
+                display:block;
+                max-width:500px
+            }
+        }
+        @media(min-width: 700px) {
+            .hero .npm.wide {
+                display:block
+            }
+        }
+        .hero .links a {
+            color:#333;
+            box-shadow:0 2px rgba(0,0,0,.2);
+            transition:all .3s
+        }
+        .hero .links a:hover {
+            box-shadow:0 2px #333
+        }
+        .hero .links a:active {
+            background:none;
+            border-radius:0
+        }
+    </style>
+</head>
+<body>
+<nav class="transparent">
+    <a class="brand" href="/">
+        <img src="../logo.svg" class="logo">
+        <span>Tinyflow JS</span>
+    </a>
+    <input id="bmenu" type="checkbox" class="show">
+    <label for="bmenu" class="burger toggle pseudo button">
+        <i class="bi-list"></i>
+    </label>
+    <div class="menu">
+        <a href="/examples">Examples</a>
+        <a href="/api">API Docs</a>
+        <a href="https://github.com/tinyflowjs/tinyflow" target="_blank" class="pseudo button icon-g">
+            <i class="bi-github"></i>
+        </a>
+    </div>
+</nav>
+<main>
+    <header class="hero">
+        <div class="content">
+            <h1>Tinyflow JS</h1>
+            <p class="slogan">Workflows everywhere!</p>
+            <pre class="npm wide">$ npm install @tinyflow/starter</pre><pre class="npm slim">&lt;link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/picnic"&gt;</pre><p class="links"><a href="https://cdn.jsdelivr.net/npm/picnic" target="_blank" class="cdn">CDN</a><span> | </span><a href="https://raw.githubusercontent.com/franciscop/picnic/master/picnic.min.css" target="_blank" class="github">Download</a><span> | </span><a href="https://github.com/franciscop/picnic" target="_blank" class="github">GitHub</a></p></div></header>
+</main>
+</body>
+</html>
