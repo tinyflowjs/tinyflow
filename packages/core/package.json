@@ -17,7 +17,9 @@
     "docs:html": "jsdoc --readme ../../README.md ./Tinyflow.js -d ../../docs/api/core/",
     "docs:md": "jsdoc2md ./Tinyflow.js > ./api.md",
     "build": "rollup --config rollup.dist.config.js",
-    "build:full": "npm run docs && npm run build"
+    "build:full": "npm run docs && npm run build",
+    "prepublishOnly": "cp ../../README.md ./",
+    "postpublish": "rm ./README.md"
   },
   "babel": {
     "presets": [
