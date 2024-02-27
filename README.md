@@ -16,6 +16,13 @@ Highly extensive with minimal core and no dependencies.
 
 </div>
 
+<div align="center">
+
+</div>
+
+## Note: WIP
+
+This project is close to become published. Check out the release section for current release-candidates.
 
 ## Features
 
@@ -90,52 +97,18 @@ If you want a more comfortable solution (suitable for beginners), you might also
 | Name      | Info                                                                                                     | Data |
 |-----------|----------------------------------------------------------------------------------------------------------|------|
 | `started` | fired when the workflow has started, after all extensions were executed without error                    |
-| `step`    | fired when a new step has entered                                                                        |
-| `end`     | fired when the workflow ended; read the workflow state to know whether it ended by complete or by cancel |
+| `step`    | fired when a new step has entered                                                                        | the workflow's `data` property will contain the data from the previous step at this point
+| `end`     | fired when the workflow ended; read the workflow state to know whether it ended by complete or by cancel | the workflow's `data` property will contain all steps data
 | `error`   | fired when an error has been caught                                                                      |
 
 #### Step Class Events
 
-TBD
-
-### Examples
-
-#### A simple log extension
-
-```js
-Index.use('log', ({ workflow, step }) => {
-  if (workflow) {
-    workflow.on('')
-  }
-  if (step) {
-
-  }
-})
-```
-
-#### Restore
-
-```js
-const restore = (definitions, snapshot) => {
-  if (instances.has(snapshot.id)) {
-    throw new TinyflowError(`There is already an active workflow by id ${snapshot.id}`)
-  }
-
-  const instanceId = snapshot.id
-  const wfOptions = { instanceId }
-  const wf = Index.create(definitions, wfOptions)
-  wf.start()
-  wf.step(snapshot.current.name, { stepId: snapshot.current.id })
-
-  if (typeof snapshot.current.data === 'object') {
-    wf.current.update(snapshot.current.data)
-  }
-
-  return wf
-}
-```
-
-## API Documentation
+| Name     | Info                                                                                             | Data |
+|----------|--------------------------------------------------------------------------------------------------|------|
+| `started` | fired when the step has started, after all extensions were executed without error                |
+| `update` | fired when a step has received new data via `update`                                             | the `data` will contain the latest updated data
+| `end`    | fired when the step ended; read the it's `state` to know whether it ended by complete or by cancel | the step's `data` property will contain all steps final data
+| `error`  | fired when an error has been caught                                                              |
 
 ## Covered environments
 
@@ -162,19 +135,15 @@ The following list shows, what's currently covered:
 ## File sizes
 
 Tinyflow comes with a minimal core but also provides extensions out-of-the-box.
-At the same time we build Tinyflow for multiple outputs, the following table shows the size of
-the various builds, available in their respective `/dist` folders:
+At the same time we build Tinyflow for multiple outputs.
 
-| package | filename         |size|gzip|
-|--------|------------------|----|----|
-| `core`  | `index`          ||
-| `core`  | `index.min`      ||
-| `core`  | `index.cjs`      ||
-| `core`  | `index.min.cjs`  ||
-| `core`  | `index.es5`      ||
-| `core`  | `index.es5.min`  ||
-| `core`  | `index.iife`     ||
-| `core`  | `index.iife.min` ||
+The following table shows the size of the various builds, available in their respective `/dist` folders.
+Note, that this overview shows only the sizes for the minified versions of each, excluding sourcemaps. 
+
+| package               | esm             | cjs                                                                                                                              | es5                                                                                                                                        | iife |
+|-----------------------|-----------------|----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|------|
+| `@tinyflow/core`      |![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Fcore%2Fdist%2FTinyflow.min.js)| ![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Fcore%2Fdist%2FTinyflow.cjs.min.js) | ![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Fcore%2Fdist%2FTinyflow.es5.min.js)          |![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Fcore%2Fdist%2FTinyflow.iife.min.js)
+| `@tinyflow/instances` |![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Finstance%2Fdist%2FwithInstances.min.js)|![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Finstance%2Fdist%2FwithInstances.cjs.min.js)| ![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Finstance%2Fdist%2FwithInstances.es5.min.js) |![GitHub file size in bytes](https://img.shields.io/github/size/tinyflowjs/tinyflow/packages%2Finstance%2Fdist%2FwithInstances.iife.min.js)
 
 ## Contribution and Development
 
