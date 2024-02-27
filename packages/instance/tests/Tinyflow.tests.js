@@ -1,13 +1,13 @@
 /* eslint-env mocha */
 import { Tinyflow } from '@tinyflow/core'
-import { withInstances } from '../index.js'
+import { withInstances } from '../withInstances.js'
 import { minimalFlow, setId, simpleId, start, next } from '@tinyflow/testutils'
 import { expect } from 'chai'
 
 describe('Instances - Tinyflow unit tests', function () {
   let disposeExtension
   before(() => {
-    disposeExtension = Tinyflow.extend(withInstances)
+    disposeExtension = Tinyflow.extend(withInstances())
   })
   after(() => {
     disposeExtension()

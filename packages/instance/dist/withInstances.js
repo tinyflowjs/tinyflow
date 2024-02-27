@@ -1,4 +1,14 @@
-const withInstances = (internal, { Workflow, Tinyflow, TinyflowError }) => {
+/**
+ * @namespace Tinyflow
+ */
+
+/**
+ * Tinyflow extension to manage instances (create, get, dispose).
+ * @function
+ * @export
+ * @return {function(*, {Workflow: *, Tinyflow: *, TinyflowError: *}): function(): void}
+ */
+const withInstances = (/* config */) => (internal, { Workflow, Tinyflow, TinyflowError }) => {
   internal.instances = new Map();
   const { instances, listeners } = internal;
 
@@ -80,4 +90,4 @@ const withInstances = (internal, { Workflow, Tinyflow, TinyflowError }) => {
 };
 
 export { withInstances };
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=withInstances.js.map

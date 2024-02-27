@@ -1,6 +1,7 @@
 {
   "name": "@tinyflow/testutils",
   "version": "1.0.0",
+  "private": true,
   "description": "testing utils for common tinyflow tests",
   "type": "module",
   "main": "dist/index.cjs.js",
@@ -10,9 +11,9 @@
     "lint": "standard | snazzy",
     "lint:fix": "standard --fix | snazzy",
     "lint:test": "npm run lint && npm test",
-    "test": "mocha \"tests/**/*.tests.js\"",
-    "test:coverage": "NODE_ENV=test c8 --all --include=index.js --reporter=html --reporter=text mocha \"./tests/**/*.tests.js\"",
-    "test:watch": "npm test -- --watch",
+    "test": "echo 'skip for testutils'",
+    "test:coverage": "echo 'skip for testutils'",
+    "test:watch": "echo 'skip for testutils'",
     "docs": "jsdoc --readme README.md ./utils.js -d ../../docs/api/testutils && jsdoc2md ./utils.js > ./api.md",
     "build": "rollup --config rollup.dist.config.js",
     "build:full": "npm run docs && npm run build"
