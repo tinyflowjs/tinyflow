@@ -38,61 +38,61 @@ describe('Step', function () {
     })
 
     const runExtension = ({ isAsync }) => {
-        it(`runs ${isAsync ? 'async' : ''} extensions`, async () => {
-          let called = 0
-          const extension = { bar: 1 }
-          const handler = (config, sources) => {
-            expect(config).to.deep.equal(extension)
-            expect(sources.workflow).to.equal(undefined)
-            expect(sources.step).to.equal(step)
-            called++
-          }
-          Tinyflow.use('fooStep', isAsync
-            ? async (...args) => handler(...args)
-            : handler)
-          const step = new Step({
-            fooStep: extension
-          })
-          expect(step.custom).to.deep.equal({ fooStep: extension })
-          await start(step)
-          await asyncTimeout(25)
-          expect(called).to.equal(1)
-          Tinyflow.use('fooStep', null)
+      it(`runs ${isAsync ? 'async' : ''} extensions`, async () => {
+        let called = 0
+        const extension = { bar: 1 }
+        const handler = (config, sources) => {
+          expect(config).to.deep.equal(extension)
+          expect(sources.workflow).to.equal(undefined)
+          expect(sources.step).to.equal(step)
+          called++
+        }
+        Tinyflow.use('fooStep', isAsync
+          ? async (...args) => handler(...args)
+          : handler)
+        const step = new Step({
+          fooStep: extension
         })
-      }
+        expect(step.custom).to.deep.equal({ fooStep: extension })
+        await start(step)
+        await asyncTimeout(25)
+        expect(called).to.equal(1)
+        Tinyflow.use('fooStep', null)
+      })
+    }
 
     ;[false, true].forEach(isAsync => runExtension({ isAsync }))
 
     const extensionWithError = ({ isAsync }) => {
-        it(`handles errors in ${isAsync ? 'async' : ''} extensions`, (done) => {
-          const message = 'expected foo step error'
-          let called = 0
-          const extension = { bar: 1 }
-          const handler = () => {
-            called++
-            throw new Error(message)
-          }
-          Tinyflow.use('fooStep', isAsync
-            ? async (...args) => handler(...args)
-            : handler)
-          const st = new Step({ id, name, workflowId, fooStep: extension })
+      it(`handles errors in ${isAsync ? 'async' : ''} extensions`, (done) => {
+        const message = 'expected foo step error'
+        let called = 0
+        const extension = { bar: 1 }
+        const handler = () => {
+          called++
+          throw new Error(message)
+        }
+        Tinyflow.use('fooStep', isAsync
+          ? async (...args) => handler(...args)
+          : handler)
+        const st = new Step({ id, name, workflowId, fooStep: extension })
 
-          if (isAsync) {
-            st.on('error', ({ error, workflow, step }) => {
-              expect(workflow).to.equal(undefined)
-              expect(step).to.equal(st)
-              expect(called).to.equal(1)
-              Tinyflow.use('fooStep', null)
-              done()
-            })
-            st.start()
-          }
-          else {
-            expect(() => st.start()).to.throw(message)
+        if (isAsync) {
+          st.on('error', ({ error, workflow, step }) => {
+            expect(error.message).to.equal(message)
+            expect(workflow).to.equal(undefined)
+            expect(step).to.equal(st)
+            expect(called).to.equal(1)
+            Tinyflow.use('fooStep', null)
             done()
-          }
-        })
-      }
+          })
+          st.start()
+        } else {
+          expect(() => st.start()).to.throw(message)
+          done()
+        }
+      })
+    }
     ;[false, true].forEach(isAsync => extensionWithError({ isAsync }))
   })
 
@@ -162,7 +162,7 @@ describe('Step', function () {
       await start(step, () => step.start())
 
       // optional prevail:
-      step.update({ '__proto__': { foo: 1 } })
+      step.update({ __proto__: { foo: 1 } })
       expect(objectProps).to.deep.equal(props({}))
     })
   })

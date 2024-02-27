@@ -40,7 +40,7 @@ const _ = {
    * @param workflow {Workflow}
    * @return {{at: Date, data, name}}
    */
-  history: (step, /* workflow */) => ({ name: step.name, data: { ...step.data }, at: new Date() })
+  history: (step /* workflow */) => ({ name: step.name, data: { ...step.data }, at: new Date() })
 }
 
 // make available as local variables
@@ -96,11 +96,11 @@ Tinyflow.use = (name, handler) => {
 // Internal Implementations
 // ----------------------------------------------------------------------------
 const tick = (fn, t = 0) => setTimeout(fn, t)
-const promisify = (fn, args) => new Promise((res, rej) => {
+const promisify = (fn, args) => new Promise((resolve, reject) => {
   try {
-    res(fn(...args))
+    resolve(fn(...args))
   } catch (e) {
-    rej(e)
+    reject(e)
   }
 })
 
@@ -115,7 +115,7 @@ class Emitter {
    * @param fn {function}
    */
   on (name, fn) {
-    let list = listeners.by(this, name)
+    const list = listeners.by(this, name)
     list.push(fn)
     listeners.get(this).set(name, list)
   }
@@ -144,15 +144,14 @@ class Emitter {
       listeners.get(this).clear()
       return // exit
     }
-    let list = listeners.by(this, name)
+    const list = listeners.by(this, name)
     if (!fn) {
       list.length = 0
     }
-    let index = list.length > 0 && list.findIndex((f) => f === fn)
+    const index = list.length > 0 && list.findIndex((f) => f === fn)
     if (index > -1) {
       list.splice(index, 1)
-    }
-    else {
+    } else {
       throw new TinyflowError(`No listener found by function for event ${name}`, {
         id: this.id,
         name: this.name
@@ -205,13 +204,13 @@ class TinyflowError extends Error {
 const runExtensions = ({ workflow, step, onSuccess, onError }) => {
   const target = workflow || step
   Promise.all(Object
-      .keys(target.custom)
-      .filter(key => extensions.has(key))
-      .map(name => {
-        const fn = extensions.get(name)
-        const value = target.custom[name]
-        return fn(value, { workflow, step })
-      }))
+    .keys(target.custom)
+    .filter(key => extensions.has(key))
+    .map(name => {
+      const fn = extensions.get(name)
+      const value = target.custom[name]
+      return fn(value, { workflow, step })
+    }))
     .then(onSuccess)
     .catch(onError)
 }
@@ -232,7 +231,6 @@ const runExtensions = ({ workflow, step, onSuccess, onError }) => {
  * @class
  */
 export class Workflow extends Emitter {
-
   /**
    * Creates a new instance. Any properties in the definitions, hat are not
    * one of name, id or steps are considered "custom" and are (optionally) handled
@@ -310,7 +308,7 @@ export class Workflow extends Emitter {
   start ({ autoStep } = {}) {
     if (this.state === 'active') {
       throw new TinyflowError(
-        `Cannot start active workflow`,
+        'Cannot start active workflow',
         { name: this.name, id: this.id }
       )
     }
@@ -358,7 +356,7 @@ export class Workflow extends Emitter {
       )
     }
 
-    let stepDef = typeof indexOrName === 'number'
+    const stepDef = typeof indexOrName === 'number'
       ? this.steps[indexOrName]
       : this.steps.find(({ name }) => name === indexOrName)
 
@@ -482,7 +480,7 @@ export class Step extends Emitter {
   start () {
     if (this.state === 'active') {
       throw new TinyflowError(
-        `Cannot start a step in active state`,
+        'Cannot start a step in active state',
         { name: this.name, id: this.id, wf: this.workflowId }
       )
     }

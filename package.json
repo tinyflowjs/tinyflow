@@ -13,7 +13,7 @@
     "test:watch": "npm run test:watch -w packages/",
     "docs": "npm run docs -w packages/",
     "build": "npm run build -w packages/",
-    "build:full": "npm run build:full -w packages/",
+    "build:full": "npm run build:full -w packages/"
   },
   "workspaces": [
     "packages/*"

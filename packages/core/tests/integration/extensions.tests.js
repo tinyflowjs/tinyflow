@@ -65,7 +65,7 @@ describe('Integration - extensions', function () {
 
       expectFail({
         schema: { name: 'bar' },
-        message: `Expected name bar, got foo`
+        message: 'Expected name bar, got foo'
       })
       expectFail({
         instanceId,
@@ -75,7 +75,7 @@ describe('Integration - extensions', function () {
       expectFail({
         instanceId,
         schema: { name: 'foo', id: instanceId, steps: ['one', 'moo'] },
-        message: `Expected name moo, got two`
+        message: 'Expected name moo, got two'
       })
     })
     it('works with ajv', () => {

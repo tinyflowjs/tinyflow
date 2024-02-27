@@ -45,27 +45,27 @@ export default [{
     }
   ]
 },
-  // IIFE OUTPUT
-  {
-    input: 'Tinyflow.js',
-    output: [{
-      file: 'dist/Tinyflow.iife.js',
-      format: 'iife',
-      name: 'Tinyflow',
-      sourcemap: true,
-    }, {
-      file: 'dist/Tinyflow.iife.min.js',
-      format: 'iife',
-      name: 'Tinyflow',
-      sourcemap: true,
-      compact: true,
-      plugins: [terser()]
-    }],
-    plugins: [
-      commonjs(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled'
-      })
-    ]
-  }]
+// IIFE OUTPUT
+{
+  input: 'Tinyflow.js',
+  output: [{
+    file: 'dist/Tinyflow.iife.js',
+    format: 'iife',
+    name: 'Tinyflow',
+    sourcemap: true
+  }, {
+    file: 'dist/Tinyflow.iife.min.js',
+    format: 'iife',
+    name: 'Tinyflow',
+    sourcemap: true,
+    compact: true,
+    plugins: [terser()]
+  }],
+  plugins: [
+    commonjs(),
+    babel({
+      exclude: 'node_modules/**',
+      babelHelpers: 'bundled'
+    })
+  ]
+}]

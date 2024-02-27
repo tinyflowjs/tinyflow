@@ -45,27 +45,27 @@ export default [{
     }
   ]
 },
-  // IIFE OUTPUT
-  {
-    input: 'withInstances.js',
-    output: [{
-      file: 'dist/withInstances.iife.js',
-      format: 'iife',
-      name: 'withInstances',
-      sourcemap: true,
-    }, {
-      file: 'dist/withInstances.iife.min.js',
-      format: 'iife',
-      name: 'withInstances',
-      sourcemap: true,
-      compact: true,
-      plugins: [terser()]
-    }],
-    plugins: [
-      commonjs(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled'
-      })
-    ]
-  }]
+// IIFE OUTPUT
+{
+  input: 'withInstances.js',
+  output: [{
+    file: 'dist/withInstances.iife.js',
+    format: 'iife',
+    name: 'withInstances',
+    sourcemap: true
+  }, {
+    file: 'dist/withInstances.iife.min.js',
+    format: 'iife',
+    name: 'withInstances',
+    sourcemap: true,
+    compact: true,
+    plugins: [terser()]
+  }],
+  plugins: [
+    commonjs(),
+    babel({
+      exclude: 'node_modules/**',
+      babelHelpers: 'bundled'
+    })
+  ]
+}]

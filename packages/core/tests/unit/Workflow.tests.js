@@ -55,7 +55,7 @@ describe('Workflow', function () {
       const wf = Tinyflow.create(minimalFlow())
       await start(wf)
       const thrown = expect(() => wf.start())
-        .to.throw(`Cannot start active workflow`)
+        .to.throw('Cannot start active workflow')
       thrown.with.deep.property('details', {
         name: wf.name,
         id: wf.id
@@ -111,7 +111,7 @@ describe('Workflow', function () {
       const wf = Tinyflow.create(minimalFlow())
       await start(wf)
       const thrown = expect(() => wf.step(3))
-        .to.throw(`Expected step definition, got undefined`)
+        .to.throw('Expected step definition, got undefined')
       thrown.with.deep.property('details', {
         indexOrName: 3,
         name: wf.name,
@@ -123,7 +123,7 @@ describe('Workflow', function () {
       await start(wf)
       const next = simpleId()
       const thrown = expect(() => wf.step(next))
-        .to.throw(`Expected step definition, got undefined`)
+        .to.throw('Expected step definition, got undefined')
       thrown.with.deep.property('details', {
         indexOrName: next,
         name: wf.name,

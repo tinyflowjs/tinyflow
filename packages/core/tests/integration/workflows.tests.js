@@ -208,7 +208,7 @@ describe('Tinyflow - integration', function () {
     })
     it('prevents the workflow from starting (async)', (done) => {
       const errId = simpleId()
-      Tinyflow.use('asyncErr', async (err, { workflow, step }) => {
+      Tinyflow.use('asyncErr', async (errConf, { workflow, step }) => {
         await asyncTimeout(100)
         expect(workflow).to.equal(wf)
         expect(step).to.equal(undefined)
