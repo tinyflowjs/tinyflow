@@ -1,0 +1,81 @@
+{
+  "name": "@tinyflow/instances",
+  "version": "1.0.0",
+  "description": "Basic instances management for Tinyflow.",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "browser": "dist/index.iife.js",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "lint": "standard | snazzy",
+    "lint:fix": "standard --fix | snazzy",
+    "lint:test": "npm run lint && npm test",
+    "test": "mocha \"tests/**/*.tests.js\"",
+    "test:coverage": "NODE_ENV=test c8 --all --include=index.js --reporter=html --reporter=text mocha \"./tests/**/*.tests.js\"",
+    "test:watch": "npm test -- --watch",
+    "docs": "jsdoc --readme ./README.md ./withInstances.js -d ../../docs/api/instances/ && jsdoc2md ./withInstances.js > ./api.md;",
+    "build": "rollup --config rollup.dist.config.js",
+    "build:full": "npm run docs && npm run build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
+  },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
+  },
+  "standard": {
+    "ignore": [
+      "coverage/",
+      "docs/",
+      "node_modules/",
+      "dist/"
+    ]
+  },
+  "targets": "> 0.25%, not dead",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tinyflowjs/tinyflow.git"
+  },
+  "keywords": [
+    "workflow",
+    "javascript",
+    "engine",
+    "minimal"
+  ],
+  "author": "Jan Küster <info@jankuester.com>",
+  "funding": [
+    {
+      "type": "GitHub",
+      "url": "https://github.com/sponsors/jankapunkt"
+    },
+    {
+      "type": "PayPal",
+      "url": "https://paypal.me/kuesterjan"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tinyflowjs/tinyflow/issues"
+  },
+  "files": [
+    "dist",
+    "API.md",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "homepage": "https://github.com/tinyflowjs/tinyflow#readme",
+  "dependencies": {
+    "@tinyflow/core": "^1.0.0"
+  }
+}
