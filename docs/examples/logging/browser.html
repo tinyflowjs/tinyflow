@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+    <title>Tinyflow logging in the Browser</title>
+    <style>
+        .code {
+            font-family: monospace;
+            border-top: 1px solid #aaa;
+        }
+
+        .container {
+            width: 100%;
+            height: auto;
+        }
+
+        .p1 {
+            padding: 1em;
+        }
+
+        wf {
+            color: #4d4d4c;
+        }
+
+        step {
+            color: #666600;
+        }
+    </style>
+</head>
+<body>
+<div class="container p1">
+    <h1>Tinyflow logging in the Browser</h1>
+    <div class="flex two p1 ">
+        <div>
+            <h2>workflow code</h2>
+            <textarea id="code-input" class="code" placeholder="paste your workflow here" rows="10"></textarea>
+            <button id="run-btn">Run</button>
+        </div>
+        <div>
+            <h2>output log</h2>
+            <table class="primary">
+                <thead>
+                <tr>
+                    <th>event</th>
+                    <th>target</th>
+                    <th>name</th>
+                    <th>id</th>
+                    <th>data</th>
+                </tr>
+                </thead>
+                <tbody id="log-list"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="module">
+    /* --------------------------------------------------------------------------
+     * This is a simple example on how to log events and render their information
+     * into a html table.
+     * Fir this, we use @tinyflow/instances to manage spawning/disposing them.
+     * ------------------------------------------------------------------------*/
+    import { Tinyflow } from '../../../packages/core/dist/index.min.js'
+    import { withInstances } from '../../../packages/instances/dist/index.min.js'
+
+    let workflowId // the current running workflow
+
+    Tinyflow.extend(withInstances)
+
+    // this is our actual log extension
+    // we basically listen to any incoming event and pipe the data
+    // into a handler that renders the info into table-rows
+    Tinyflow.use('log', (conf, { workflow, step }) => {
+      if (workflow) {
+
+        workflow.on('started', logEvent({ workflow, action: 'started' }))
+        workflow.on('step', logEvent({ workflow, action: 'step' }))
+        workflow.on('end', logEvent({ workflow, action: 'end', withData: true }))
+      }
+      if (step) {
+        step.on('started', logEvent({ step, action: 'started' }))
+        step.on('update', logEvent({ step, action: 'update', withData: true }))
+        step.on('end', logEvent({ step, action: 'end' }))
+      }
+    })
+
+    const logEvent = ({ workflow, step, action, withData = false }) => {
+      return (self) => addTableRow({
+        action,
+        workflow,
+        step,
+        data: withData ? self.data : undefined
+      })
+    }
+
+    /* --------------------------------------------------------------------------
+     * Helpers and DOM manipulation
+     * ------------------------------------------------------------------------*/
+      const get = query => document.querySelector(query)
+
+      const element = (name, content) => {
+        const el = document.createElement(name)
+        el.textContent = content
+        return el
+      }
+
+      const addTableRow = ({ workflow, step, action, data }) => {
+        const type = workflow ? 'workflow' : 'step'
+        const target = workflow || step
+
+        const row = element('tr')
+        row.appendChild(element('td', action))
+        row.appendChild(element('td', type))
+        row.appendChild(element('td', target.name))
+        row.appendChild(element('td', target.id))
+        row.appendChild(element('td', data ? JSON.stringify(data, null, 1) : ''))
+
+        get('#log-list').appendChild(row)
+      }
+
+
+      // makes async usage much easier
+      const asyncEvent = (wf, name, trigger) => new Promise((resolve, reject) => {
+        const handler = () => {
+          wf.off(name, handler)
+          resolve()
+        }
+        try {
+          wf.on(name, handler)
+          trigger()
+        } catch (e) {
+          reject(e)
+        }
+      })
+
+      const randomData = (() => {
+        const keys = ['foo', 'bar', 'baz', 'moo']
+        const values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        return () => {
+          const obj = {}
+          const key = keys[Math.floor(Math.random() * keys.length)]
+          obj[key] = values[Math.floor(Math.random() * keys.length)]
+          return obj
+        }
+      })()
+
+    /* --------------------------------------------------------------------------
+     * DOM Events
+     * ------------------------------------------------------------------------*/
+
+    get('#run-btn').addEventListener('click', async () => {
+      const current = Tinyflow.get(workflowId)
+      if (current) {
+        Tinyflow.dispose(workflowId)
+      }
+
+      const def = new Function(`return (${get('#code-input').value})`)()
+      const workflow = Tinyflow.create(def)
+      workflowId = workflow.id
+
+      const codeList = get('#log-list')
+      while (codeList.firstChild) {
+        codeList.removeChild(codeList.lastChild)
+      }
+      addTableRow({ workflow, action: 'created' })
+
+      await asyncEvent(workflow, 'step', () => workflow.start())
+
+      while (workflow.current !== null) {
+        workflow.current.update(randomData())
+        await asyncEvent(workflow, 'step', () => workflow.current.complete())
+      }
+    })
+
+    document.addEventListener('DOMContentLoaded', () => {
+      get('#code-input').value = `{
+  name: 'foo',
+  log: true,
+  steps: {
+    one: {},
+    two: {}
+  }
+}`})
+</script>
+</body>
+</html>

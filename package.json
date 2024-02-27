@@ -1,82 +1,38 @@
 {
-  "name": "@tinyflow/core",
-  "version": "1.1.0",
-  "description": "An extendable workflow engine for all runtimes with minimal core",
-  "type": "module",
-  "main": "dist/index.cjs.js",
-  "browser": "dist/index.iife.js",
-  "exports": "./dist/index.js",
+  "name": "tinyflow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": "true",
   "scripts": {
-    "lint": "standard | snazzy",
-    "lint:fix": "standard --fix | snazzy",
-    "lint:test": "npm run lint && npm test",
-    "test": "mocha \"tests/**/*.tests.js\"",
-    "test:coverage": "NODE_ENV=test c8 --all --include=lib/* --reporter=html --reporter=text mocha \"tests/**/*.tests.js\"",
-    "test:watch": "npm test -- --watch",
-    "docs": "jsdoc --readme README.md ./lib/*.js -d ./docs/api && jsdoc2md ./lib/*.js > ./api.md",
-    "build": "rollup --config rollup.dist.config.js",
-    "build:full": "npm run docs && npm run build"
+    "lint": "npm run lint -w packages/",
+    "lint:fix": "npm run lint:fix -w packages/",
+    "lint:test": "npm run lint:test -w packages/",
+    "test": "npm run test -w packages/",
+    "test:coverage": "npm run test:coverage -w packages/",
+    "test:watch": "npm run test:watch -w packages/",
+    "docs": "npm run docs -w packages/",
+    "build": "npm run build -w packages/",
+    "build:full": "npm run build:full -w packages/"
   },
-  "babel": {
-    "presets": [
-      "@babel/env"
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
-  },
-  "nyc": {
-    "sourceMap": false,
-    "instrument": false
-  },
-  "standard": {
-    "ignore": [
-      "docs/",
-      "node_modules/",
-      "dist/"
-    ]
-  },
-  "targets": "> 0.25%, not dead",
+  "workspaces": [
+    "packages/*"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/jankapunkt/npm-package-template.git"
+    "url": "https://github.com/tinyflowjs/tinyflow.git"
   },
-  "keywords": [
-    "npm",
-    "package",
-    "template",
-    "javascript"
-  ],
-  "author": "Jan Küster <info@jankuester.com>",
-  "funding": [
-    {
-      "type": "GitHub",
-      "url": "https://github.com/sponsors/jankapunkt"
-    },
-    {
-      "type": "PayPal",
-      "url": "https://paypal.me/kuesterjan"
-    }
+  "authors": [
+    "Jan Küster <info@jankuester.com>"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jankapunkt/npm-package-template/issues"
+    "url": "https://github.com/tinyflowjs/tinyflow/issues"
   },
-  "engines": {
-    "node": ">= 14.x"
+  "homepage": "https://github.com/tinyflowjs/tinyflow#readme",
+  "dependencies": {
+    "@tinyflow/core": "^1.0.0"
   },
-  "files": [
-    "dist",
-    "API.md",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md"
-  ],
-  "homepage": "https://github.com/jankapunkt/npm-package-template#readme",
   "devDependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.2",
@@ -84,16 +40,17 @@
     "@babel/register": "^7.22.15",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.5",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "ajv": "^8.12.0",
+    "@tinyflow/testutils": "^1.0.0",
     "c8": "^8.0.1",
     "chai": "^4.3.10",
     "cross-env": "7.0.3",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "mocha": "^10.2.0",
+    "npm-run-all": "^4.1.5",
     "rollup": "^4.0.2",
-    "simpl-schema": "^3.4.1",
     "snazzy": "^9.0.0",
     "standard": "^17.1.0"
   }

@@ -1,0 +1,84 @@
+{
+  "name": "@tinyflow/core",
+  "version": "1.0.0",
+  "description": "An extendable workflow engine for all runtimes with minimal core",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "browser": "dist/index.iife.js",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "lint": "standard | snazzy",
+    "lint:fix": "standard --fix | snazzy",
+    "lint:test": "npm run lint && npm test",
+    "test": "mocha \"tests/**/*.tests.js\"",
+    "test:coverage": "NODE_ENV=test c8 --all --include=index.js --reporter=html --reporter=text mocha \"./tests/**/*.tests.js\"",
+    "test:watch": "npm test -- --watch",
+    "docs": "npm run docs:html; npm run docs:md;",
+    "docs:html": "jsdoc --readme ../../README.md ./Tinyflow.js -d ../../docs/api/core/",
+    "docs:md": "jsdoc2md ./Tinyflow.js > ./api.md",
+    "build": "rollup --config rollup.dist.config.js",
+    "build:full": "npm run docs && npm run build"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
+  },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
+  },
+  "standard": {
+    "ignore": [
+      "coverage/",
+      "docs/",
+      "node_modules/",
+      "dist/"
+    ]
+  },
+  "targets": "> 0.25%, not dead",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tinyflowjs/tinyflow.git"
+  },
+  "keywords": [
+    "workflow",
+    "javascript",
+    "engine",
+    "minimal"
+  ],
+  "author": "Jan Küster <info@jankuester.com>",
+  "funding": [
+    {
+      "type": "GitHub",
+      "url": "https://github.com/sponsors/jankapunkt"
+    },
+    {
+      "type": "PayPal",
+      "url": "https://paypal.me/kuesterjan"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tinyflowjs/tinyflow/issues"
+  },
+  "files": [
+    "dist",
+    "API.md",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "homepage": "https://github.com/tinyflowjs/tinyflow#readme",
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "simpl-schema": "^3.4.1"
+  }
+}

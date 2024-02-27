@@ -1,4 +1,12 @@
-# Tinyflow
+<div align="center">
+  <img src="logo.svg" width="64">
+  <h1>Tinyflow</h1>
+</div>
+<p align="center">
+A lightweight workflow engine for all runtimes.
+Highly extensive with minimal core and no dependencies.
+</p>
+<div align="center">
 
 ![Test suite](https://github.com/chartonomy/tinyflowjs/workflows/Test%20suite/badge.svg)
 [![Build and publish](https://github.com/chartonomy/tinyflowjs/actions/workflows/publish.yml/badge.svg)](https://github.com/chartonomy/tinyflowjs/actions/workflows/publish.yml)
@@ -6,45 +14,101 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![GitHub](https://img.shields.io/github/license/chartonomy/tinyflowjs)
 
-A lightweight workflow engine for all runtimes.
-Highly extensive with minimal core and no dependencies.
+</div>
 
 
 ## Features
 
-- works with many JavaScript runtimes that support at least ES6 and Promises
-- minimal core (xyzkb minified)
-- very easy to use API
-- highly extensible; writing an extension is a real no-brainer
-- use declarative workflows and enrich them with custom functionality
+- 📦 no dependencies and no runtime-specific dependencies (besides ES6 + Promises)
+- 🪶 minimal core with (xkb; see the [sizes table](#file-sizes))
+- 🧠 very easy to use API
+- 🧩 highly extensible from the ground up
+- 📝 use declarative workflows and enrich them with custom functionality
+
+## Table of Contents
 
 ## Installation
+
+### via NPM
+
+```js
+$ npm install @tinyflow/core
+```
+
+### via Yarn
+
+```js
+$ yarn add @tinyflow/core
+```
+
+### in Deno
+
+```js
+// from NPM
+import { Tinyflow } from "npm:@tinyflow/core";
+// or from cdn
+import { Tinyflow } from "https://esm.sh/@tinyflow/core";
+```
+
+### in Bun
+
+```js
+$ bun install @tinyflow/core
+```
+
+### via CDN
+
+  - unpkg
+  - jsdelivr
+  - cdnjs
+  - esm.sh
+  - jspm
+  - github (not for production!)
+
+### Entry Points
+
+Tonyflow packages offer multiple entry point files, suited for different environments.
+Nowadays, you might want to stick with ESM but we also provide cjs, es5 and iife versions of the build, including
+sourcemaps and a minified version, too.
+
+They're all placed in the respective package's `/dist` folder and committed to this repository.
 
 ## Usage
 
 Internally there are two classes, `Workflow` and `Step` that act for the whole engine.
+If you only want the `core` package then you will have to manage them manually.
+
+Depending on your use-case, this might be exactly what you want or not want.
+If you want a more comfortable solution (suitable for beginners), you might also want to install `@tinyflow/instances`.
+
+
 
 ### Events
 
-| Class    | Name      | Info                                                                                                     | Data |
-|----------|-----------|----------------------------------------------------------------------------------------------------------|------|
-| Workflow | `started` | fired when the workflow has started, after all extensions were executed without error                    | 
-| Workflow | `step`    | fired when a new step has entered                                                                        |
-| Workflow | `end`     | fired when the workflow ended; read the workflow state to know whether it ended by complete or by cancel |
-| Workflow | `error`   | fired when an error has been caught                                                                      |
+#### Workflow Class Events
 
+| Name      | Info                                                                                                     | Data |
+|-----------|----------------------------------------------------------------------------------------------------------|------|
+| `started` | fired when the workflow has started, after all extensions were executed without error                    |
+| `step`    | fired when a new step has entered                                                                        |
+| `end`     | fired when the workflow ended; read the workflow state to know whether it ended by complete or by cancel |
+| `error`   | fired when an error has been caught                                                                      |
+
+#### Step Class Events
+
+TBD
 
 ### Examples
 
 #### A simple log extension
 
 ```js
-Tinyflow.use('log', ({ workflow, step }) => {
+Index.use('log', ({ workflow, step }) => {
   if (workflow) {
     workflow.on('')
   }
   if (step) {
-    
+
   }
 })
 ```
@@ -59,7 +123,7 @@ const restore = (definitions, snapshot) => {
 
   const instanceId = snapshot.id
   const wfOptions = { instanceId }
-  const wf = Tinyflow.create(definitions, wfOptions)
+  const wf = Index.create(definitions, wfOptions)
   wf.start()
   wf.step(snapshot.current.name, { stepId: snapshot.current.id })
 
@@ -95,6 +159,22 @@ The following list shows, what's currently covered:
 | Android Webview |                 |              |
 | ...             |                 |              |
 
+## File sizes
+
+Tinyflow comes with a minimal core but also provides extensions out-of-the-box.
+At the same time we build Tinyflow for multiple outputs, the following table shows the size of
+the various builds, available in their respective `/dist` folders:
+
+| package | filename         |size|gzip|
+|--------|------------------|----|----|
+| `core`  | `index`          ||
+| `core`  | `index.min`      ||
+| `core`  | `index.cjs`      ||
+| `core`  | `index.min.cjs`  ||
+| `core`  | `index.es5`      ||
+| `core`  | `index.es5.min`  ||
+| `core`  | `index.iife`     ||
+| `core`  | `index.iife.min` ||
 
 ## Contribution and Development
 
@@ -107,12 +187,12 @@ to help you in making your contribution a success!
 * 🪄 [Standard](https://standardjs.com/) for linting
 * ⚗️ [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com) for testing
 * 🔍 [c8](https://github.com/bcoe/c8) for code coverage
-* 📚 [JSDoc](https://jsdoc.app/) for documentation and [jsdoc-to-markdown](https://www.npmjs.com/package/jsdoc-to-markdown) to create docs as markdown files
+* 📚 [JSDoc](https://jsdoc.app/) for documentation
+  and [jsdoc-to-markdown](https://www.npmjs.com/package/jsdoc-to-markdown) to create docs as markdown files
 * ⚡ [GitHub actions](https://github.com/features/actions) for continuous integration
 * 📦 [Rollup](https://rollupjs.org) for bundling
 
 All tools are defined as **`dev-dependencies`**!
-
 
 ### Development scripts
 
@@ -134,7 +214,6 @@ where `<command>` is one of the following available commands:
 | `docs`          | creates API documentation                         | `docs`     |
 | `build`         | builds the bundles for several target platforms   | `dist`     |
 | `build:full`    | runs `build` and `docs`                           | see above  |
-
 
 ## Security
 
