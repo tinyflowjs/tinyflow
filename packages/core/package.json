@@ -1,6 +1,6 @@
 {
   "name": "@tinyflow/core",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.0",
   "description": "An extendable workflow engine for all runtimes with minimal core",
   "type": "module",
   "main": "dist/Tinyflow.cjs.js",

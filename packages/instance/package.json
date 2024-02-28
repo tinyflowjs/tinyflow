@@ -1,6 +1,6 @@
 {
   "name": "@tinyflow/instances",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.0",
   "description": "Basic instances management for Tinyflow.",
   "type": "module",
   "main": "dist/index.cjs.js",
@@ -76,6 +76,6 @@
   ],
   "homepage": "https://github.com/tinyflowjs/tinyflow#readme",
   "dependencies": {
-    "@tinyflow/core": "^1.0.0"
+    "@tinyflow/core": "^1.0.0-rc.0"
   }
 }
