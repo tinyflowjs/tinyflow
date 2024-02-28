@@ -56,7 +56,7 @@ jobs:
       - run: npm run test:coverage
 
   docs:
-    name: unit tests
+    name: generate docs
     runs-on: ubuntu-latest
     needs: [tests]
     strategy:
@@ -82,7 +82,7 @@ jobs:
       - run: npm run docs
 
   build:
-    name: unit tests
+    name: build packages
     runs-on: ubuntu-latest
     needs: [docs]
     strategy:
