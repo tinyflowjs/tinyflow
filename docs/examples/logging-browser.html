@@ -60,12 +60,12 @@
      * into a html table.
      * Fir this, we use @tinyflow/instances to manage spawning/disposing them.
      * ------------------------------------------------------------------------*/
-    import { Tinyflow } from '../../../packages/core/dist/index.min.js'
-    import { withInstances } from '../../../packages/instances/dist/index.min.js'
+    import { Tinyflow } from '../../../tinyflow/packages/core/dist/Tinyflow.umd.min.js'
+    import { withInstances } from '../../../tinyflow/packages/instance/dist/withInstances.min.js'
 
     let workflowId // the current running workflow
 
-    Tinyflow.extend(withInstances)
+    Tinyflow.extend(withInstances())
 
     // this is our actual log extension
     // we basically listen to any incoming event and pipe the data
