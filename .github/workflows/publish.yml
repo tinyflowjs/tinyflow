@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - master
-      - release-*
   pull_request:
     branches:
       - master
-      - release-*
 
 jobs:
   docs:
@@ -21,7 +19,7 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: cache dependencies
         uses: actions/cache@v3
@@ -44,7 +42,7 @@ jobs:
       - name: Setup node ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Cache dependencies ${{ matrix.node }}
         uses: actions/cache@v3
