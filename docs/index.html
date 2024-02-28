@@ -4,80 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="js, javascript, library, Tinyflow, workflow, light">
-    <meta name="description" content="Workflows everywhere! Minimal, yet highly extendable and hackable workflow engine.">
+    <meta name="description"
+          content="Workflows everywhere! Minimal, yet highly extendable and hackable workflow engine.">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+    <script src=" https://cdn.jsdelivr.net/npm/microlight@0.0.7/microlight.min.js "></script>
     <title>Tinyflow</title>
     <style>
-        .logo {max-width: 20%;}
+        html {
+            --s: 256px; /* control the size */
+            --c1: #001929; /* right side */
+            --c2: #01263c; /* left side */
+            --c3: #023655; /* top side */
+            --_g: var(--c3) 0 120deg, #0000 0;
+        }
+
+        .logo {
+            max-width: 20%;
+        }
+
         .hero {
-            position:relative;
-            width:100%;
-            height:70vh;
-            transition:height 999999s;
-            text-align:center;
-            min-height:300px;
-            color:#333;
-            padding:1px 0;
-            background:#fff url("/img/optimised.svg") no-repeat 50% center scroll;
-            background-size:cover
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            transition: height 999999s;
+            text-align: center;
+            min-height: 300px;
+            color: #fff;
+            padding: 1px 0;
+            background: conic-gradient(from -60deg at 50% calc(100% / 3), var(--_g)),
+            conic-gradient(from 120deg at 50% calc(200% / 3), var(--_g)),
+            conic-gradient(from 60deg at calc(200% / 3), var(--c3) 60deg, var(--c2) 0 120deg, #0000 0),
+            conic-gradient(from 180deg at calc(100% / 3), var(--c1) 60deg, var(--_g)),
+            linear-gradient(90deg, var(--c1) calc(100% / 6), var(--c2) 0 50%,
+                    var(--c1) 0 calc(500% / 6), var(--c2) 0);
+            background-size: calc(1.732 * var(--s)) var(--s);
+            background-attachment: fixed;
         }
+
         .hero .content {
-            position:relative;
-            top:45%;
-            transform:translateY(-50%)
+            position: relative;
+            top: 45%;
+            transform: translateY(-50%)
         }
+
         .hero h1 {
-            font-size:3em;
-            line-height:1;
-            padding:0
+            font-size: 3em;
+            line-height: 1;
+            padding: 0
         }
+
         .hero p {
-            margin:0
+            margin: 0
         }
+
         .hero .slogan {
-            font-size:1.3em
+            font-size: 1.3em
         }
+
         .hero .npm {
-            max-width:720px;
-            color:#333;
-            margin-bottom:0;
-            text-align:center;
-            border-radius:0;
-            margin:1.3em auto .3em
+            max-width: 720px;
+            color: #333;
+            margin-bottom: 0;
+            text-align: center;
+            border-radius: 0;
+            margin: 1.3em auto .3em
         }
+
         .hero .npm.slim,
         .hero .npm.wide {
-            display:none
+            display: block;
         }
-        @media(max-width: 700px) {
+
+        @media (max-width: 700px) {
             .hero .npm.slim {
-                display:block;
-                max-width:500px
+                display: block;
+                max-width: 500px
             }
         }
-        @media(min-width: 700px) {
+
+        @media (min-width: 700px) {
             .hero .npm.wide {
-                display:block
+                display: block
             }
         }
+
         .hero .links a {
-            color:#333;
-            box-shadow:0 2px rgba(0,0,0,.2);
-            transition:all .3s
+            color: #333;
+            box-shadow: 0 2px rgba(0, 0, 0, .2);
+            transition: all .3s
         }
+
         .hero .links a:hover {
-            box-shadow:0 2px #333
+            box-shadow: 0 2px #333
         }
+
         .hero .links a:active {
-            background:none;
-            border-radius:0
+            background: none;
+            border-radius: 0
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .transparent {
+            background: transparent;
+            border: transparent;
+            box-shadow: none;
+            color: #fff;
+        }
+
+        .example {
+            background: #001929;
+        }
+
+        .microlight {
+            font-family: monospace;
+            white-space: pre;
+            background: #001929;
+            color: #fff;
+            overflow-x: scroll;
         }
     </style>
 </head>
 <body>
 <nav class="transparent">
-    <a class="brand" href="/">
-        <img src="../logo.svg" class="logo">
+    <a class="brand" href="https://tinyflowjs.github.io/tinyflow/">
+        <img src="https://raw.githubusercontent.com/tinyflowjs/tinyflow/master/logo.svg" class="logo">
         <span>Tinyflow JS</span>
     </a>
     <input id="bmenu" type="checkbox" class="show">
@@ -85,20 +138,139 @@
         <i class="bi-list"></i>
     </label>
     <div class="menu">
+        <!--
+        TODO place the links to the documentation here
         <a href="./examples">Examples</a>
-        <a href="./api">API Docs</a>
+        -->
+        <a href="#api-docs">API Docs</a>
         <a href="https://github.com/tinyflowjs/tinyflow" target="_blank" class="pseudo button icon-g">
-            <i class="bi-github"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github"
+                 viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+            </svg>
         </a>
     </div>
 </nav>
 <main>
     <header class="hero">
         <div class="content">
-            <h1>Tinyflow JS</h1>
+            <h1>
+                Tinyflow JS
+            </h1>
             <p class="slogan">Workflows everywhere!</p>
-            <pre class="npm wide">$ npm install @tinyflow/starter</pre><pre class="npm slim">&lt;link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/picnic"&gt;</pre><p class="links"><a href="https://cdn.jsdelivr.net/npm/picnic" target="_blank" class="cdn">CDN</a><span> | </span><a href="https://raw.githubusercontent.com/franciscop/picnic/master/picnic.min.css" target="_blank" class="github">Download</a><span> | </span><a href="https://github.com/franciscop/picnic" target="_blank" class="github">GitHub</a></p></div></header>
+            <img src="https://raw.githubusercontent.com/tinyflowjs/tinyflow/master/logo.svg" height="48">
+            <div class="tabs three center">
+                <input id="tabC-1" type='radio' name='tabGroupC' checked>
+                <input id="tabC-2" type='radio' name='tabGroupC'>
+                <input id="tabC-3" type='radio' name='tabGroupC'>
+                <!--
+                <input id="tabC-4" type='radio' name='tabGroupC'>
+                <input id="tabC-5" type='radio' name='tabGroupC'>
+                -->
+                <div class='row'>
+                    <div>
+                        <pre class="npm wide">$ npm install @tinyflow/core</pre>
+                    </div>
+                    <div>
+                        <pre class="npm wide">$ yarn add @tinyflow/core</pre>
+                    </div>
+                    <!--
+                    <div>
+                        <pre class="npm wide">import { Tinyflow } from "npm:@tinyflow/core";</pre>
+                    </div>
+                    <div>
+                        <pre class="npm wide">$ bun install @tinyflow/core</pre>
+                    </div>
+                    -->
+                    <div>
+                        <pre class="npm wide">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tinyflow/core"&gt;</pre>
+                    </div>
+                </div>
+                <label class="pseudo toggle" for="tabC-1">npm</label>
+                <span>·</span>
+                <label class="pseudo toggle" for="tabC-2">yarn</label>
+                <!-- TODO add when tested
+                <span>·</span>
+                <label class="pseudo toggle" for="tabC-3">deno</label>
+                <span>·</span>
+                <label class="pseudo toggle" for="tabC-4">bun</label>
+                -->
+                <span>·</span>
+                <label class="pseudo toggle" for="tabC-3">CDN</label>
+            </div>
+            <h2 style="bottom: 0;">↓</h2>
+        </div>
+    </header>
+    <h3 class="center" id="minimal-example">Most Minimal Example</h3>
+    <div class="flex three example">
+        <div></div>
+        <div class="microlight">
+import { Workflow } from '@tinyflow/core'
+
+// create a new workflow
+const workflow = new Workflow({
+  name: 'checkout-cart',
+  steps: {
+    visit: {},
+    paymentOptions: {},
+    complete: {}
+  }
+})
+
+// listen to workflow events
+workflow.on('started', () => console.debug('workflow started'))
+workflow.on('step', () => console.debug('new step is mounted', workflow.current))
+workflow.on('error', ({ error }) => console.error(error))
+workflow.on('end', () => {
+  workflow.off() // remove all events
+  console.debug('workflow ended with data', workflow.data)
+})
+
+workflow.start()
+
+// ... at some point in your code
+// update the current step's data
+workflow.current.update({ some: 'data' })
+
+// or complete the current step, causing
+// workflow to move to the next step or end
+workflow.current.complete()
+        </div>
+        <div></div>
+    </div>
+    <h3 class="center" id="api-docs">API Docs</h3>
+    <div class="flex three">
+        <div class="center"></div>
+        <div class="center">
+            <a href="./api/core/index.html">core</a>
+            <span>·</span>
+            <a href="./api/instances/index.html">instances</a>
+        </div>
+        <div class="center"></div>
+    </div>
 </main>
+<script>
+  // Transparent nav handler
+  var nav = document.querySelector('nav')
+
+  function navScroll () {
+    var className = 'transparent'
+    var top = window.scrollY ? window.scrollY : document.documentElement.scrollTop
+    if (top > 0) {
+      nav.classList.remove(className);
+      [].forEach.call(document.querySelectorAll('[data-src]'), function (iframe) {
+        iframe.setAttribute('src', iframe.getAttribute('data-src'))
+        iframe.removeAttribute('data-src')
+      })
+    }
+    else {
+      nav.classList.add('transparent')
+      nav.classList.add(className)
+    }
+  }
+  window.onscroll = navScroll
+  navScroll()
+  setTimeout(function () { nav.classList.remove('loading') }, 10)
+</script>
 </body>
 </html>

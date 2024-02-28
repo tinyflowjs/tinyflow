@@ -8,24 +8,26 @@ Highly extensive with minimal core and no dependencies.
 </p>
 <div align="center">
 
-![Test suite](https://github.com/chartonomy/tinyflowjs/workflows/Test%20suite/badge.svg)
-[![Build and publish](https://github.com/chartonomy/tinyflowjs/actions/workflows/publish.yml/badge.svg)](https://github.com/chartonomy/tinyflowjs/actions/workflows/publish.yml)
+[![Test suite](https://github.com/tinyflowjs/tinyflow/actions/workflows/testsuite.yml/badge.svg)](https://github.com/tinyflowjs/tinyflow/actions/workflows/testsuite.yml)
+[![Publish packages](https://github.com/tinyflowjs/tinyflow/actions/workflows/publish.yml/badge.svg)](https://github.com/tinyflowjs/tinyflow/actions/workflows/publish.yml)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![CodeQL](https://github.com/tinyflowjs/tinyflow/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tinyflowjs/tinyflow/actions/workflows/codeql-analysis.yml)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-![GitHub](https://img.shields.io/github/license/chartonomy/tinyflowjs)
+![GitHub License](https://img.shields.io/github/license/tinyflowjs/tinyflow)
 
 </div>
 
 <div align="center">
 
+[Documentation](https://tinyflowjs.github.io/tinyflow/)
+·
 [Releases](https://github.com/tinyflowjs/tinyflow/releases)
 
 </div>
 
-## Note: WIP
-
-This project is close to become published. Check out the [release section](https://github.com/tinyflowjs/tinyflow/releases)
-for release-candidates.
+> ‼️ WIP Note:
+> This project is close to it's first release. Check out the [release section](https://github.com/tinyflowjs/tinyflow/releases)
+for current release-candidates.
 
 ## Features
 
@@ -37,43 +39,53 @@ for release-candidates.
 
 ## Table of Contents
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Installation](#installation)
+  - [via NPM](#via-npm)
+  - [via Yarn](#via-yarn)
+  - [in Deno](#in-deno)
+  - [in Bun](#in-bun)
+  - [via CDN](#via-cdn)
+  - [Entry Points](#entry-points)
+- [Usage](#usage)
+  - [Events](#events)
+    - [Workflow Class Events](#workflow-class-events)
+    - [Step Class Events](#step-class-events)
+- [Covered environments](#covered-environments)
+- [File sizes](#file-sizes)
+- [Contribution and Development](#contribution-and-development)
+  - [Tools / stack](#tools--stack)
+  - [Development scripts](#development-scripts)
+- [Security](#security)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Installation
 
-### via NPM
+### Using Package Managers and Platforms
 
-```js
-$ npm install @tinyflow/core
-```
+Our goal is to make Tinyflow usable anyhwere JavaScript is running.
+The following table shows some options to install Tinyflow's `core` package, the most minimal deliverable:
 
-### via Yarn
+| name       | command                                                     | tested |
+|------------|-------------------------------------------------------------|--------|
+| npm        | `npm install @tinyflow/core`                                |        |
+| yarn       | `yarn add @tinyflow/core`                                   |
+| deno (npm) | `import { Tinyflow } from "npm:@tinyflow/core";`            |
+| deno (cdn) | `import { Tinyflow } from "https://esm.sh/@tinyflow/core";` |
+| bun        | `bun install @tinyflow/core`                                |
 
-```js
-$ yarn add @tinyflow/core
-```
+### Using a CDN
 
-### in Deno
-
-```js
-// from NPM
-import { Tinyflow } from "npm:@tinyflow/core";
-// or from cdn
-import { Tinyflow } from "https://esm.sh/@tinyflow/core";
-```
-
-### in Bun
-
-```js
-$ bun install @tinyflow/core
-```
-
-### via CDN
-
-  - unpkg
-  - jsdelivr
-  - cdnjs
-  - esm.sh
-  - jspm
-  - github (not for production!)
+- unpkg
+- jsdelivr
+- cdnjs
+- esm.sh
+- jspm
+- github (not for production!)
 
 ### Entry Points
 
@@ -91,9 +103,94 @@ If you only want the `core` package then you will have to manage them manually.
 Depending on your use-case, this might be exactly what you want or not want.
 If you want a more comfortable solution (suitable for beginners), you might also want to install `@tinyflow/instances`.
 
+### Minimal Example
 
+If you want to have the most minimal size, then you will have to manage everything on your own.
+Here is an example for that:
+
+```js
+import { Workflow } from '@tinyflow/core'
+
+// create a new workflow
+const workflow = new Workflow({
+  name: 'checkout-cart',
+  steps: {
+    visit: {},
+    paymentOptions: {},
+    complete: {}
+  }
+})
+
+// listen to workflow events
+workflow.on('started', () => console.debug('workflow started'))
+workflow.on('step', () => console.debug('new step is mounted', workflow.current))
+workflow.on('error', ({ error }) => console.error(error))
+workflow.on('end', () => {
+  workflow.off() // remove all events
+  console.debug('workflow ended with data', workflow.data)
+})
+
+workflow.start()
+
+// ... at some point in your code
+// update the current step's data
+workflow.current.update({ some: 'data' })
+
+// or complete the current step, causing
+// workflow to move to the next step or end
+workflow.current.complete()
+```
+
+### Extensions
+
+The real power of Tinyflow is it's ability to easily extend functionality.
+For this, there are two main methods (in fact, the `Tinyflow` object in `core` contains only them):
+
+#### `Tinyflow.extend` - Extend `Tinyflow` and it's very internals
+
+As a very simple example, we can create an id function that uses the Browser's crypto API to generate uuids: 
+
+```js
+const restoreId = Tinyflow.extend(internals => {
+  const original = internals.id
+  internals.id = () => window.crypto.randomUUID()
+  
+  // calling this method will rstore the default id generation
+  return () => {
+    internals.id = original
+  }
+})
+
+const wf = new Workflow({ name: 'foo', steps: { one: {} }})
+wf.id // "54b281b4-6ee1-4747-97a5-46543f71f359"
+
+// call he restore function if your extension 
+// should exist only for a limited time
+restoreId()
+```
+
+As you can see, all internals remain scoped within that function (unless you intend to do fancy stuff...).
+
+
+#### `Tinyflow.use` - Create a workflow runtime extension that executes, before a workflow or step startes
+
+As a very simple example for this one, we can create a simple 
+
+#### More Examples
+
+We have more examples ready in [our documentation's examples section](./docs/examples).
+Some of them can be executed directly in the browser or using node/deno/bun.
+
+#### New Core Extensions
+
+Some extensions might not be ready to be published yet. 
+They are currently located the in the [/next folder](./next).
+If you think you have a good idea for a core extension, 
+then please open an issue and choose the issue template for extensions.
 
 ### Events
+
+The `core` package brings two main classes that emit several events during the engine execution.
 
 #### Workflow Class Events
 
@@ -134,6 +231,8 @@ The following list shows, what's currently covered:
 | Opera           |                 |              |
 | Android Webview |                 |              |
 | ...             |                 |              |
+
+You can help out with testing for these environments, so we can maximize the compatibility overall.
 
 ## File sizes
 
