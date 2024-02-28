@@ -18,6 +18,8 @@
     "docs:md": "jsdoc2md ./Tinyflow.js > ./api.md",
     "build": "rollup --config rollup.dist.config.js",
     "build:full": "npm run docs && npm run build",
+    "release:prod": "npm publish --access=public",
+    "release:staging": "npm publish --access=public --tag=next",
     "prepublishOnly": "cp ../../README.md ./",
     "postpublish": "rm ./README.md"
   },

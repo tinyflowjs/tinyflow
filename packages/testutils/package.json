@@ -16,7 +16,9 @@
     "test:watch": "echo 'skip for testutils'",
     "docs": "jsdoc --readme README.md ./utils.js -d ../../docs/api/testutils && jsdoc2md ./utils.js > ./api.md",
     "build": "rollup --config rollup.dist.config.js",
-    "build:full": "npm run docs && npm run build"
+    "build:full": "npm run docs && npm run build",
+    "release:prod": "echo 'skip for testutils'",
+    "release:staging": "echo 'skip for testutils'"
   },
   "babel": {
     "presets": [

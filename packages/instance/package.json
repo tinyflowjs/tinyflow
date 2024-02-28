@@ -15,7 +15,9 @@
     "test:watch": "npm test -- --watch",
     "docs": "jsdoc --readme ./README.md ./withInstances.js -d ../../docs/api/instances/ && jsdoc2md ./withInstances.js > ./api.md;",
     "build": "rollup --config rollup.dist.config.js",
-    "build:full": "npm run docs && npm run build"
+    "build:full": "npm run docs && npm run build",
+    "release:prod": "npm publish --access=public",
+    "release:staging": "npm publish --access=public --tag=next"
   },
   "babel": {
     "presets": [
