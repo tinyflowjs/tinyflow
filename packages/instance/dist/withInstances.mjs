@@ -1,4 +1,4 @@
-'use strict';/**
+/**
  * @namespace Tinyflow
  */
 
@@ -9,7 +9,7 @@
  * @export
  * @return {function(*, {Workflow: *, Tinyflow: *, TinyflowError: *}): function(): void}
  */
-module.exports.withInstances = (/* config */) => (internal, { Workflow, Tinyflow, TinyflowError }) => {
+var withInstances_1 = (/* config */) => (internal, { Workflow, Tinyflow, TinyflowError }) => {
   internal.instances = new Map();
   const { instances, listeners } = internal;
 
@@ -88,4 +88,7 @@ module.exports.withInstances = (/* config */) => (internal, { Workflow, Tinyflow
     delete Tinyflow.create;
     delete Tinyflow.dispose;
   }
-};//# sourceMappingURL=withInstances.cjs.min.js.map
+};
+
+export { withInstances_1 as withInstances };
+//# sourceMappingURL=withInstances.mjs.map

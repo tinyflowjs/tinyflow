@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import { Tinyflow } from '@tinyflow/core'
-import { withInstances } from '../withInstances.js'
+import { withInstances } from '../withInstances.mjs'
 import { minimalFlow, setId, simpleId, start, next } from '@tinyflow/testutils'
 import { expect } from 'chai'
 

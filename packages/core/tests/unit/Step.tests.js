@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-import { Step, Tinyflow } from '../../Tinyflow.js'
+import { Step, Tinyflow } from '../../Tinyflow.mjs'
 import { expect } from 'chai'
 import { asyncTimeout, end, objectProps, props, simpleId, start } from '@tinyflow/testutils'
 

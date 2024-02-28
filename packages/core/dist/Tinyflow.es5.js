@@ -683,5 +683,7 @@ var Step = /*#__PURE__*/function (_Emitter2) {
   }]);
   return Step;
 }(Emitter);
-export { Step, Tinyflow, Workflow };
+module.exports.Tinyflow = Tinyflow;
+module.exports.Workflow = Workflow;
+module.exports.Step = Step;
 //# sourceMappingURL=Tinyflow.es5.js.map

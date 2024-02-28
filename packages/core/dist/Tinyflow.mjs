@@ -5,6 +5,7 @@
  * makes no use of any runtime-specifics.
  * @type {object}
  */
+
 const Tinyflow = {};
 
 // ----------------------------------------------------------------------------
@@ -539,5 +540,8 @@ class Step extends Emitter {
   }
 }
 
-export { Step, Tinyflow, Workflow };
-//# sourceMappingURL=Tinyflow.js.map
+var Tinyflow_2 = Tinyflow;
+var Workflow_1 = Workflow;
+var Step_1 = Step;
+
+export { Step_1 as Step, Tinyflow_2 as Tinyflow, Workflow_1 as Workflow };

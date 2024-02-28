@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-import { Tinyflow } from '../../Tinyflow.js'
+import { Tinyflow } from '../../Tinyflow.mjs'
 import { expect } from 'chai'
 import { minimalFlow, setId, simpleId } from '@tinyflow/testutils'
 import SimpleSchema from 'simpl-schema'

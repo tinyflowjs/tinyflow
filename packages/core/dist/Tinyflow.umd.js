@@ -258,15 +258,10 @@
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
+  var Tinyflow$1 = {};
+
   var _excluded = ["name", "id", "steps"],
     _excluded2 = ["id", "workflowId", "name", "data", "next"];
-  /**
-   * Tinyflow is a minimalistic workflow engine with
-   * easy customization.
-   * You can use it with any JavaScript runtime as it
-   * makes no use of any runtime-specifics.
-   * @type {object}
-   */
   var Tinyflow = {};
 
   // ----------------------------------------------------------------------------
@@ -778,7 +773,6 @@
     }]);
     return Workflow;
   }(Emitter);
-
   /**
    * Represents an executable unit of a workflow.
    * Steps work best when they are atomically related to exactly one
@@ -913,10 +907,16 @@
     }]);
     return Step;
   }(Emitter);
+  var Tinyflow_2 = Tinyflow$1.Tinyflow = Tinyflow;
+  var Workflow_1 = Tinyflow$1.Workflow = Workflow;
+  var Step_1 = Tinyflow$1.Step = Step;
 
-  exports.Step = Step;
-  exports.Tinyflow = Tinyflow;
-  exports.Workflow = Workflow;
+  exports.Step = Step_1;
+  exports.Tinyflow = Tinyflow_2;
+  exports.Workflow = Workflow_1;
+  exports.default = Tinyflow$1;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
 //# sourceMappingURL=Tinyflow.umd.js.map

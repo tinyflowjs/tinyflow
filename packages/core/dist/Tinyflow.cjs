@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Tinyflow is a minimalistic workflow engine with
  * easy customization.
@@ -5,7 +7,7 @@
  * makes no use of any runtime-specifics.
  * @type {object}
  */
-export const Tinyflow = {}
+const Tinyflow = {};
 
 // ----------------------------------------------------------------------------
 // Internal Variables
@@ -41,11 +43,11 @@ const _ = {
    * @return {{at: Date, data, name}}
    */
   history: (step /* workflow */) => ({ name: step.name, data: { ...step.data }, at: new Date() })
-}
+};
 
 // make available as local variables
 // without the need for the _. prefix
-const { extensions, listeners } = _
+const { extensions, listeners } = _;
 
 /**
  * Get the listeners for a given emitter.
@@ -58,10 +60,10 @@ const { extensions, listeners } = _
  */
 listeners.by = (emitter, name) => {
   if (!listeners.has(emitter)) {
-    listeners.set(emitter, new Map())
+    listeners.set(emitter, new Map());
   }
   return listeners.get(emitter).get(name) || []
-}
+};
 
 // ----------------------------------------------------------------------------
 // Public API
@@ -71,7 +73,7 @@ listeners.by = (emitter, name) => {
  * method allows to extend Tinyflows core functionality.
  * @param fn
  */
-Tinyflow.extend = fn => fn(_, { Tinyflow, TinyflowError, Workflow, Step, Emitter })
+Tinyflow.extend = fn => fn(_, { Tinyflow, TinyflowError, Workflow, Step, Emitter });
 
 /**
  * Register an extension by name. Extensions run on workflow-properties that
@@ -88,21 +90,21 @@ Tinyflow.extend = fn => fn(_, { Tinyflow, TinyflowError, Workflow, Step, Emitter
  * @param handler {null|function(property, context):Promise|void} callback to execute
  */
 Tinyflow.use = (name, handler) => {
-  const fn = handler === null ? extensions.delete : extensions.set
-  fn.call(extensions, name, handler)
-}
+  const fn = handler === null ? extensions.delete : extensions.set;
+  fn.call(extensions, name, handler);
+};
 
 // ----------------------------------------------------------------------------
 // Internal Implementations
 // ----------------------------------------------------------------------------
-const tick = (fn, t = 0) => setTimeout(fn, t)
+const tick = (fn, t = 0) => setTimeout(fn, t);
 const promisify = (fn, args) => new Promise((resolve, reject) => {
   try {
-    resolve(fn(...args))
+    resolve(fn(...args));
   } catch (e) {
-    reject(e)
+    reject(e);
   }
-})
+});
 
 /**
  * @class
@@ -115,9 +117,9 @@ class Emitter {
    * @param fn {function}
    */
   on (name, fn) {
-    const list = listeners.by(this, name)
-    list.push(fn)
-    listeners.get(this).set(name, list)
+    const list = listeners.by(this, name);
+    list.push(fn);
+    listeners.get(this).set(name, list);
   }
 
   /**
@@ -126,8 +128,8 @@ class Emitter {
    * @param fn {function}
    */
   once (name, fn) {
-    fn.once = true
-    this.on(name, fn)
+    fn.once = true;
+    this.on(name, fn);
   }
 
   /**
@@ -141,23 +143,23 @@ class Emitter {
    */
   off (name, fn) {
     if (!name) {
-      listeners.get(this).clear()
+      listeners.get(this).clear();
       return // exit
     }
-    const list = listeners.by(this, name)
+    const list = listeners.by(this, name);
     if (!fn) {
-      list.length = 0
+      list.length = 0;
     }
-    const index = list.length > 0 && list.findIndex((f) => f === fn)
+    const index = list.length > 0 && list.findIndex((f) => f === fn);
     if (index > -1) {
-      list.splice(index, 1)
+      list.splice(index, 1);
     } else {
       throw new TinyflowError(`No listener found by function for event ${name}`, {
         id: this.id,
         name: this.name
       })
     }
-    listeners.get(this).set(name, list)
+    listeners.get(this).set(name, list);
   }
 
   /**
@@ -173,18 +175,18 @@ class Emitter {
    * @param data {any=} optional data
    */
   emit (name, data) {
-    const list = listeners.by(this, name).reverse()
+    const list = listeners.by(this, name).reverse();
     for (let i = list.length - 1; i >= 0; i--) {
-      const f = list[i]
+      const f = list[i];
       tick(() => {
         promisify(f, [data])
-          .catch(e => this.emit('error', { error: e, source: this }))
-      })
+          .catch(e => this.emit('error', { error: e, source: this }));
+      });
       if (f.once) {
-        list.splice(i, 1)
+        list.splice(i, 1);
       }
     }
-    listeners.get(this).set(name, list)
+    listeners.get(this).set(name, list);
   }
 }
 
@@ -195,25 +197,25 @@ class Emitter {
  */
 class TinyflowError extends Error {
   constructor (message, details) {
-    super(message)
-    this.name = 'TinyflowError'
-    this.details = details
+    super(message);
+    this.name = 'TinyflowError';
+    this.details = details;
   }
 }
 
 const runExtensions = ({ workflow, step, onSuccess, onError }) => {
-  const target = workflow || step
+  const target = workflow || step;
   Promise.all(Object
     .keys(target.custom)
     .filter(key => extensions.has(key))
     .map(name => {
-      const fn = extensions.get(name)
-      const value = target.custom[name]
+      const fn = extensions.get(name);
+      const value = target.custom[name];
       return fn(value, { workflow, step })
     }))
     .then(onSuccess)
-    .catch(onError)
-}
+    .catch(onError);
+};
 
 /**
  * The main workflow execution class,
@@ -230,7 +232,7 @@ const runExtensions = ({ workflow, step, onSuccess, onError }) => {
  *
  * @class
  */
-export class Workflow extends Emitter {
+class Workflow extends Emitter {
   /**
    * Creates a new instance. Any properties in the definitions, hat are not
    * one of name, id or steps are considered "custom" and are (optionally) handled
@@ -245,42 +247,42 @@ export class Workflow extends Emitter {
    * @throws {TinyflowError} if steps are not defined or have length of 0
    */
   constructor ({ name, id, steps = {}, ...custom }) {
-    super()
-    this.name = name
-    this.id = id || _.id()
-    this.data = null
-    this.state = 'pending'
-    this.custom = {}
-    this.history = []
+    super();
+    this.name = name;
+    this.id = id || _.id();
+    this.data = null;
+    this.state = 'pending';
+    this.custom = {};
+    this.history = [];
 
     // parse extensions
-    const stepExt = {}
+    const stepExt = {};
     Object.entries(custom).forEach(([key, val]) => {
       // if extensions are not defined as array, we
       // assume them to run in global scope
-      const [fn, scope] = Array.isArray(val) ? val : [val, 'all']
+      const [fn, scope] = Array.isArray(val) ? val : [val, 'all'];
 
       // attach extensions for workflows directly
       if (['all', 'workflow'].includes(scope)) {
-        this.custom[key] = fn
+        this.custom[key] = fn;
       }
       // attach extensions for steps to temp object,
       // so we can use them in the step parsing
       // note, that if a step defines the extensions as null
       // then it will prevent this extension for this step
       if (['all', 'steps'].includes(scope)) {
-        stepExt[key] = fn
+        stepExt[key] = fn;
       }
-    })
+    });
 
     this.steps = Object
       .entries(steps)
       .map(([name, value], index, array) => {
         const next = index < array.length - 1
           ? index + 1
-          : null
+          : null;
         return { next, name, ...stepExt, ...value }
-      })
+      });
 
     if (this.steps.length === 0) {
       throw new TinyflowError(
@@ -293,7 +295,7 @@ export class Workflow extends Emitter {
      * The current step
      * @type {Step|null}
      */
-    this.current = null
+    this.current = null;
   }
 
   /**
@@ -312,20 +314,20 @@ export class Workflow extends Emitter {
         { name: this.name, id: this.id }
       )
     }
-    this.data = Object.create(null)
-    const workflow = this
+    this.data = Object.create(null);
+    const workflow = this;
 
     runExtensions({
       workflow,
       onSuccess: () => {
-        this.state = 'active'
-        this.emit('started', this)
+        this.state = 'active';
+        this.emit('started', this);
         if (autoStep !== false) {
-          this.step(0)
+          this.step(0);
         }
       },
       onError: e => this.emit('error', { error: e, workflow })
-    })
+    });
   }
 
   /**
@@ -358,7 +360,7 @@ export class Workflow extends Emitter {
 
     const stepDef = typeof indexOrName === 'number'
       ? this.steps[indexOrName]
-      : this.steps.find(({ name }) => name === indexOrName)
+      : this.steps.find(({ name }) => name === indexOrName);
 
     if (!stepDef) {
       throw new TinyflowError(
@@ -367,36 +369,36 @@ export class Workflow extends Emitter {
       )
     }
 
-    const id = stepId || _.id()
-    const workflowId = this.id
-    const step = new Step({ id, workflowId, ...stepDef })
-    const workflow = this
+    const id = stepId || _.id();
+    const workflowId = this.id;
+    const step = new Step({ id, workflowId, ...stepDef });
+    const workflow = this;
     const endStep = (step) => {
       if (step) {
-        step.off()
+        step.off();
         // for a most simple audit we save a minimal set of data
         // that allows for reproduction or implementing a "back to previous"
         // procedure, for example using extensions or other externals
-        this.history.push(_.history(step, workflow))
+        this.history.push(_.history(step, workflow));
       }
       return true
-    }
+    };
 
     if (autoOnEnd !== false) {
       step.once('end', (step) => {
-        workflow.data[step.name] = { ...step.data }
+        workflow.data[step.name] = { ...step.data };
 
-        const next = step.next
+        const next = step.next;
         return (next !== null && next <= workflow.steps.length - 1)
           ? tick(() => workflow.step(next))
           : endStep(step) && workflow.complete()
-      })
+      });
     }
 
-    step.start()
-    endStep(this.current)
-    this.current = step
-    this.emit('step', this)
+    step.start();
+    endStep(this.current);
+    this.current = step;
+    this.emit('step', this);
   }
 
   /**
@@ -407,11 +409,11 @@ export class Workflow extends Emitter {
    */
   complete () {
     if (this.current) {
-      this.current.off()
+      this.current.off();
     }
-    this.current = null
-    this.state = 'complete'
-    this.emit('end', this)
+    this.current = null;
+    this.state = 'complete';
+    this.emit('end', this);
   }
 
   /**
@@ -422,12 +424,12 @@ export class Workflow extends Emitter {
    */
   cancel () {
     if (this.current) {
-      this.current.off()
+      this.current.off();
     }
-    this.data = null
-    this.current = null
-    this.state = 'cancelled'
-    this.emit('end', this)
+    this.data = null;
+    this.current = null;
+    this.state = 'cancelled';
+    this.emit('end', this);
   }
 }
 
@@ -441,7 +443,7 @@ export class Workflow extends Emitter {
  * Just make sure a step does not involve multiple tasks.
  * @class
  */
-export class Step extends Emitter {
+class Step extends Emitter {
   /**
    * Creates a new step instance
    * @constructor
@@ -453,14 +455,14 @@ export class Step extends Emitter {
    * @param custom {...object} all other properties that will be passed on to your custom handlers
    */
   constructor ({ id, workflowId, name, data = null, next, ...custom }) {
-    super()
-    this.id = id || _.id()
-    this.workflowId = workflowId
-    this.name = name
-    this.next = next
-    this.custom = custom
-    this.state = 'pending'
-    this.data = data
+    super();
+    this.id = id || _.id();
+    this.workflowId = workflowId;
+    this.name = name;
+    this.next = next;
+    this.custom = custom;
+    this.state = 'pending';
+    this.data = data;
   }
 
   /**
@@ -485,17 +487,17 @@ export class Step extends Emitter {
       )
     }
 
-    this.data = this.data || Object.create(null)
-    const step = this
+    this.data = this.data || Object.create(null);
+    const step = this;
 
     runExtensions({
       step,
       onSuccess: () => {
-        this.state = 'active'
-        this.emit('started', this)
+        this.state = 'active';
+        this.emit('started', this);
       },
       onError: e => this.emit('error', { error: e, step })
-    })
+    });
   }
 
   /**
@@ -514,9 +516,9 @@ export class Step extends Emitter {
         { name: this.name, id: this.id, wf: this.workflowId }
       )
     }
-    this.data = Object.create(null)
-    Object.assign(this.data, data)
-    this.emit('update', this)
+    this.data = Object.create(null);
+    Object.assign(this.data, data);
+    this.emit('update', this);
   }
 
   /**
@@ -524,8 +526,8 @@ export class Step extends Emitter {
    * @emits end - the workflow has ended, see state for the way it ended
    */
   complete () {
-    this.state = 'complete'
-    this.emit('end', this)
+    this.state = 'complete';
+    this.emit('end', this);
   }
 
   /**
@@ -533,8 +535,12 @@ export class Step extends Emitter {
    * @emits end - the workflow has ended, see state for the way it ended
    */
   cancel () {
-    this.state = 'cancelled'
-    this.data = null
-    this.emit('end', this)
+    this.state = 'cancelled';
+    this.data = null;
+    this.emit('end', this);
   }
 }
+
+module.exports.Tinyflow = Tinyflow;
+module.exports.Workflow = Workflow;
+module.exports.Step = Step;

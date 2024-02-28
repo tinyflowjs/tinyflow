@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-import { Tinyflow, Workflow, Step } from '../../Tinyflow.js'
+import { Tinyflow, Workflow, Step } from '../../Tinyflow.mjs'
 import { expect } from 'chai'
 import { minimalFlow, minimalFlowWithExtension, setId, simpleId, start } from '@tinyflow/testutils'
 

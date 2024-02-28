@@ -1,14 +1,18 @@
 {
   "name": "@tinyflow/instances",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "Basic instances management for Tinyflow.",
   "type": "module",
-  "main": "dist/withInstances.js",
-  "browser": "dist/withInstances.iife.js",
+  "main": "./dist/withInstances.es5.js",
+  "module": "./dist/withInstances.mjs",
+  "browser": "./dist/widthInstances.iife.js",
   "exports": {
-    "import": "./dist/withInstances.js",
-    "require": "./dist/withInstances.cjs.js",
-    "default": "./dist/withInstances.js"
+    "node": {
+      "import": "./dist/withInstances.mjs",
+      "require": "./dist/withInstances.cjs"
+    },
+    "production": "./dist/withInstances.min.mjs",
+    "default": "./dist/withInstances.min.mjs"
   },
   "scripts": {
     "lint": "standard | snazzy",

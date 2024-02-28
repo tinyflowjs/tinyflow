@@ -16,8 +16,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  * @export
  * @return {function(*, {Workflow: *, Tinyflow: *, TinyflowError: *}): function(): void}
  */
-var withInstances = function withInstances( /* config */
-) {
+module.exports.withInstances = function /* config */
+() {
   return function (internal, _ref) {
     var Workflow = _ref.Workflow,
       Tinyflow = _ref.Tinyflow,
@@ -121,5 +121,4 @@ var withInstances = function withInstances( /* config */
     };
   };
 };
-export { withInstances };
 //# sourceMappingURL=withInstances.es5.js.map

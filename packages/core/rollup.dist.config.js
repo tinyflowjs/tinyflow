@@ -3,59 +3,68 @@ import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
 
 export default [{
-  input: 'Tinyflow.js',
+  input: 'Tinyflow.mjs',
   output: [
     {
-      file: 'dist/Tinyflow.js',
+      file: 'dist/Tinyflow.mjs',
       format: 'es',
-      sourcemap: true
+      exports: 'named'
     },
     {
-      file: 'dist/Tinyflow.min.js',
+      file: 'dist/Tinyflow.min.mjs',
       format: 'es',
+      exports: 'named',
       sourcemap: true,
       compact: true,
       plugins: [terser()]
-    },
+    }
+  ],
+  plugins: [
+    commonjs()
+  ]
+},
+
+// CJS / LEGACY CJS
+{
+  input: 'Tinyflow.cjs',
+  output: [
     {
       file: 'dist/Tinyflow.es5.js',
       format: 'es',
+      exports: 'named',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] })],
-      sourcemap: true,
-      interop: 'auto'
+      sourcemap: true
     },
     {
       file: 'dist/Tinyflow.es5.min.js',
       format: 'es',
+      exports: 'named',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] }), terser()],
       sourcemap: true,
-      compact: true,
-      interop: 'auto'
+      compact: true
     },
     {
-      file: 'dist/Tinyflow.cjs.js',
+      file: 'dist/Tinyflow.cjs',
       format: 'cjs',
-      plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] })],
-      sourcemap: true,
-      interop: 'auto'
+      exports: 'named'
     },
     {
-      file: 'dist/Tinyflow.cjs.min.js',
+      file: 'dist/Tinyflow.min.cjs',
       format: 'cjs',
-      plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] }), terser()],
+      exports: 'named',
       sourcemap: true,
-      compact: true,
-      interop: 'auto'
+      compact: true
     }
   ]
 },
 // IIFE + UMD OUTPUT
 {
-  input: 'Tinyflow.js',
+  input: 'Tinyflow.cjs',
   output: [{
     file: 'dist/Tinyflow.iife.js',
     format: 'iife',
     name: 'Tinyflow',
+    exports: 'named',
     sourcemap: true
   }, {
     file: 'dist/Tinyflow.iife.min.js',
@@ -63,11 +72,13 @@ export default [{
     name: 'Tinyflow',
     sourcemap: true,
     compact: true,
+    exports: 'named',
     plugins: [terser()]
   }, {
     file: 'dist/Tinyflow.umd.js',
     format: 'umd',
     name: 'Tinyflow',
+    exports: 'named',
     sourcemap: true
   }, {
     file: 'dist/Tinyflow.umd.min.js',
@@ -75,6 +86,7 @@ export default [{
     name: 'Tinyflow',
     sourcemap: true,
     compact: true,
+    exports: 'named',
     plugins: [terser()]
   }],
   plugins: [

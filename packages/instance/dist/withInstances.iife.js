@@ -78,9 +78,7 @@ var withInstances = (function (exports) {
     };
   }
 
-  /**
-   * @namespace Tinyflow
-   */
+  var withInstances = {};
 
   /**
    * Tinyflow extension to manage instances (create, get, dispose).
@@ -89,8 +87,8 @@ var withInstances = (function (exports) {
    * @export
    * @return {function(*, {Workflow: *, Tinyflow: *, TinyflowError: *}): function(): void}
    */
-  var withInstances = function withInstances( /* config */
-  ) {
+  var withInstances_1 = withInstances.withInstances = function /* config */
+  () {
     return function (internal, _ref) {
       var Workflow = _ref.Workflow,
         Tinyflow = _ref.Tinyflow,
@@ -195,7 +193,10 @@ var withInstances = (function (exports) {
     };
   };
 
-  exports.withInstances = withInstances;
+  exports.default = withInstances;
+  exports.withInstances = withInstances_1;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
 
   return exports;
 

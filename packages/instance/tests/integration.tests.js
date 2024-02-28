@@ -2,7 +2,7 @@
 import { Tinyflow } from '@tinyflow/core'
 import { expect } from 'chai'
 import { minimalFlow, simpleId, asyncTimeout, end, start, next, prev, setId } from '@tinyflow/testutils'
-import { withInstances } from '../withInstances.js'
+import { withInstances } from '../withInstances.mjs'
 
 describe('Instances - instances', function () {
   let disposeExtension
