@@ -21,7 +21,7 @@
     "test": "mocha \"tests/**/*.tests.js\"",
     "test:coverage": "NODE_ENV=test c8 --all --include=withInstances.mjs --reporter=html --reporter=text mocha \"./tests/**/*.tests.js\"",
     "test:watch": "npm test -- --watch",
-    "docs": "jsdoc --readme ./README.md ./withInstances.cjs -d ../../docs/api/instances/ && jsdoc2md ./withInstances.cjs > ./api.md;",
+    "docs": "jsdoc -c jsdoc.conf.json --readme ./README.md ./withInstances.cjs -d ../../docs/api/instances/ && jsdoc2md -c jsdoc.conf.json ./withInstances.cjs > ./api.md;",
     "build": "rm ./dist/* && rollup --config rollup.dist.config.js",
     "build:full": "npm run docs && npm run build",
     "release:prod": "npm publish --access=public",
