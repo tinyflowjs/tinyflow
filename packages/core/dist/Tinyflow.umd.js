@@ -1,5 +1,8 @@
-var Tinyflow = (function (exports) {
-  'use strict';
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.Tinyflow = {}));
+})(this, (function (exports) { 'use strict';
 
   function _callSuper(t, o, e) {
     return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
@@ -915,7 +918,5 @@ var Tinyflow = (function (exports) {
   exports.Tinyflow = Tinyflow;
   exports.Workflow = Workflow;
 
-  return exports;
-
-})({});
-//# sourceMappingURL=Tinyflow.iife.js.map
+}));
+//# sourceMappingURL=Tinyflow.umd.js.map

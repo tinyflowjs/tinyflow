@@ -149,11 +149,11 @@ var tick = function tick(fn) {
   return setTimeout(fn, t);
 };
 var promisify = function promisify(fn, args) {
-  return new Promise(function (res, rej) {
+  return new Promise(function (resolve, reject) {
     try {
-      res(fn.apply(void 0, _toConsumableArray(args)));
+      resolve(fn.apply(void 0, _toConsumableArray(args)));
     } catch (e) {
-      rej(e);
+      reject(e);
     }
   });
 };
@@ -412,7 +412,7 @@ var Workflow = /*#__PURE__*/function (_Emitter) {
       var _ref9 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
         autoStep = _ref9.autoStep;
       if (this.state === 'active') {
-        throw new TinyflowError("Cannot start active workflow", {
+        throw new TinyflowError('Cannot start active workflow', {
           name: this.name,
           id: this.id
         });
@@ -613,7 +613,7 @@ var Step = /*#__PURE__*/function (_Emitter2) {
     value: function start() {
       var _this7 = this;
       if (this.state === 'active') {
-        throw new TinyflowError("Cannot start a step in active state", {
+        throw new TinyflowError('Cannot start a step in active state', {
           name: this.name,
           id: this.id,
           wf: this.workflowId

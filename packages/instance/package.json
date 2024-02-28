@@ -1,11 +1,15 @@
 {
   "name": "@tinyflow/instances",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Basic instances management for Tinyflow.",
   "type": "module",
-  "main": "dist/withInstances.cjs.js",
+  "main": "dist/withInstances.js",
   "browser": "dist/withInstances.iife.js",
-  "exports": "./dist/withInstances.js",
+  "exports": {
+    "import": "./dist/withInstances.js",
+    "require": "./dist/withInstances.cjs.js",
+    "default": "./dist/withInstances.js"
+  },
   "scripts": {
     "lint": "standard | snazzy",
     "lint:fix": "standard --fix | snazzy",

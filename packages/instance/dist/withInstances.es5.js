@@ -11,6 +11,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 /**
  * Tinyflow extension to manage instances (create, get, dispose).
+ *
  * @function
  * @export
  * @return {function(*, {Workflow: *, Tinyflow: *, TinyflowError: *}): function(): void}

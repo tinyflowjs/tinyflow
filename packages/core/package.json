@@ -1,11 +1,15 @@
 {
   "name": "@tinyflow/core",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "An extendable workflow engine for all runtimes with minimal core",
   "type": "module",
   "main": "dist/Tinyflow.cjs.js",
   "browser": "dist/Tinyflow.iife.js",
-  "exports": "./dist/Tinyflow.js",
+  "exports": {
+    "import": "./dist/Tinyflow.js",
+    "require": "./dist/Tinyflow.cjs.js",
+    "default": "./dist/Tinyflow.js"
+  },
   "scripts": {
     "lint": "standard | snazzy",
     "lint:fix": "standard --fix | snazzy",

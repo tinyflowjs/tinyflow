@@ -84,6 +84,7 @@ var withInstances = (function (exports) {
 
   /**
    * Tinyflow extension to manage instances (create, get, dispose).
+   *
    * @function
    * @export
    * @return {function(*, {Workflow: *, Tinyflow: *, TinyflowError: *}): function(): void}

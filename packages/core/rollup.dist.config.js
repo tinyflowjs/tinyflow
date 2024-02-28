@@ -21,31 +21,35 @@ export default [{
       file: 'dist/Tinyflow.es5.js',
       format: 'es',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] })],
-      sourcemap: true
+      sourcemap: true,
+      interop: 'auto'
     },
     {
       file: 'dist/Tinyflow.es5.min.js',
       format: 'es',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] }), terser()],
       sourcemap: true,
-      compact: true
+      compact: true,
+      interop: 'auto'
     },
     {
       file: 'dist/Tinyflow.cjs.js',
       format: 'cjs',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] })],
-      sourcemap: true
+      sourcemap: true,
+      interop: 'auto'
     },
     {
       file: 'dist/Tinyflow.cjs.min.js',
       format: 'cjs',
       plugins: [getBabelOutputPlugin({ presets: ['@babel/preset-env'] }), terser()],
       sourcemap: true,
-      compact: true
+      compact: true,
+      interop: 'auto'
     }
   ]
 },
-// IIFE OUTPUT
+// IIFE + UMD OUTPUT
 {
   input: 'Tinyflow.js',
   output: [{
@@ -56,6 +60,18 @@ export default [{
   }, {
     file: 'dist/Tinyflow.iife.min.js',
     format: 'iife',
+    name: 'Tinyflow',
+    sourcemap: true,
+    compact: true,
+    plugins: [terser()]
+  }, {
+    file: 'dist/Tinyflow.umd.js',
+    format: 'umd',
+    name: 'Tinyflow',
+    sourcemap: true
+  }, {
+    file: 'dist/Tinyflow.umd.min.js',
+    format: 'umd',
     name: 'Tinyflow',
     sourcemap: true,
     compact: true,
