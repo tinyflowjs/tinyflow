@@ -19,10 +19,10 @@
     "lint:fix": "standard --fix | snazzy",
     "lint:test": "npm run lint && npm test",
     "test": "mocha \"tests/**/*.tests.js\"",
-    "test:coverage": "NODE_ENV=test c8 --all --include=withInstances.js --reporter=html --reporter=text mocha \"./tests/**/*.tests.js\"",
+    "test:coverage": "NODE_ENV=test c8 --all --include=withInstances.mjs --reporter=html --reporter=text mocha \"./tests/**/*.tests.js\"",
     "test:watch": "npm test -- --watch",
-    "docs": "jsdoc --readme ./README.md ./withInstances.js -d ../../docs/api/instances/ && jsdoc2md ./withInstances.js > ./api.md;",
-    "build": "rollup --config rollup.dist.config.js",
+    "docs": "jsdoc --readme ./README.md ./withInstances.cjs -d ../../docs/api/instances/ && jsdoc2md ./withInstances.cjs > ./api.md;",
+    "build": "rm ./dist/* && rollup --config rollup.dist.config.js",
     "build:full": "npm run docs && npm run build",
     "release:prod": "npm publish --access=public",
     "release:staging": "npm publish --access=public --tag=next"

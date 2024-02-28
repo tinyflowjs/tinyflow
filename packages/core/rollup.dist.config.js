@@ -52,6 +52,7 @@ export default [{
       file: 'dist/Tinyflow.min.cjs',
       format: 'cjs',
       exports: 'named',
+      plugins: [terser()],
       sourcemap: true,
       compact: true
     }

@@ -49,9 +49,10 @@ export default [{
       exports: 'named'
     },
     {
-      file: 'dist/withInstances.cjs.min.js',
+      file: 'dist/withInstances.min.cjs',
       format: 'cjs',
       exports: 'named',
+      plugins: [terser()],
       sourcemap: true,
       compact: true
     }
