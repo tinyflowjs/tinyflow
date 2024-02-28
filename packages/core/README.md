@@ -25,6 +25,10 @@ Highly extensive with minimal core and no dependencies.
 
 </div>
 
+> ‼️ WIP Note:
+> This project is close to it's first release. Check out the [release section](https://github.com/tinyflowjs/tinyflow/releases)
+for current release-candidates.
+
 ## Features
 
 - 📦 no dependencies and no runtime-specific dependencies (besides ES6 + Promises)
