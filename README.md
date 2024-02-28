@@ -18,11 +18,14 @@ Highly extensive with minimal core and no dependencies.
 
 <div align="center">
 
+[Releases](https://github.com/tinyflowjs/tinyflow/releases)
+
 </div>
 
 ## Note: WIP
 
-This project is close to become published. Check out the release section for current release-candidates.
+This project is close to become published. Check out the [release section](https://github.com/tinyflowjs/tinyflow/releases)
+for release-candidates.
 
 ## Features
 
