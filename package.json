@@ -47,7 +47,7 @@
     "@tinyflow/testutils": "^1.0.0",
     "babel-plugin-istanbul": "^6.1.1",
     "c8": "^8.0.1",
-    "chai": "^4.3.10",
+    "chai": "^5.1.1",
     "cross-env": "7.0.3",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
