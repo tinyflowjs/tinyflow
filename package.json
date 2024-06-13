@@ -46,7 +46,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@tinyflow/testutils": "^1.0.0",
     "babel-plugin-istanbul": "^6.1.1",
-    "c8": "^8.0.1",
+    "c8": "^10.1.2",
     "chai": "^4.3.10",
     "cross-env": "7.0.3",
     "jsdoc": "^4.0.2",
